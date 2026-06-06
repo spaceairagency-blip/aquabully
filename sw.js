@@ -1,15 +1,26 @@
-const CACHE = 'aquabully-v1';
+// ── bump this string every time you deploy a new version ──
+const CACHE = 'aquabully-v2';
 
 self.addEventListener('install', e => {
-  self.skipWaiting();
+  // Do NOT skipWaiting automatically — let the page control activation
+  // so we can show the user an "update ready" banner first.
 });
 
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(keys =>
       Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-    ).then(() => self.clients.claim())
+    ).then(() => {
+      // Notify all open tabs that a new version is active
+      return self.clients.matchAll({ type: 'window', includeUncontrolled: true })
+        .then(clients => clients.forEach(c => c.postMessage({ type: 'SW_ACTIVATED' })));
+    }).then(() => self.clients.claim())
   );
+});
+
+// Allow the page to trigger skipWaiting (used by the update banner)
+self.addEventListener('message', e => {
+  if (e.data && e.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
 self.addEventListener('fetch', e => {
