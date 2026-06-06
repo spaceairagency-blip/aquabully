@@ -41,26 +41,30 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 0 60px;
+    padding: 0 0 calc(60px + env(safe-area-inset-bottom));
     background-image:
       radial-gradient(circle at 20% 20%, rgba(91,191,255,0.18) 0%, transparent 50%),
       radial-gradient(circle at 80% 80%, rgba(168,230,255,0.22) 0%, transparent 50%);
+    -webkit-tap-highlight-color: transparent;
   }
 
   /* ── HEADER ───────────────────────────────────────── */
   header {
     width: 100%;
     background: linear-gradient(135deg, var(--ocean) 0%, var(--sky) 100%);
-    padding: 22px 32px 18px;
+    padding: 16px 20px 14px;
+    padding-top: calc(16px + env(safe-area-inset-top));
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
     box-shadow: 0 4px 20px rgba(30,127,203,0.25);
   }
 
   header h1 {
     font-family: 'Fredoka One', cursive;
-    font-size: 2rem;
+    font-size: clamp(1.4rem, 5vw, 2rem);
     color: #fff;
     letter-spacing: 1px;
   }
@@ -439,7 +443,64 @@
   }
   #greeting span { color: var(--coral); }
 
-  /* CONFETTI BURST for 100% */
+  /* ── UPDATE BANNER ────────────────────────────────── */
+  #update-banner {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2000;
+    background: linear-gradient(135deg, #0d4f88, #1e7fcb);
+    color: #fff;
+    padding: 14px 20px;
+    padding-top: calc(14px + env(safe-area-inset-top));
+    text-align: center;
+    font-size: 0.88rem;
+    font-weight: 700;
+    font-family: 'Nunito', sans-serif;
+    box-shadow: 0 4px 20px rgba(13,79,136,0.4);
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  #update-banner.show { display: flex; }
+  #update-banner button {
+    background: #fff;
+    color: var(--ocean);
+    border: none;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.82rem;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  /* ── MOBILE TWEAKS ────────────────────────────────── */
+  .btn, .quick-btn, input, button {
+    touch-action: manipulation; /* eliminates 300ms tap delay */
+  }
+
+  @media (max-width: 400px) {
+    main { padding: 18px 12px 0; gap: 16px; }
+    .card { padding: 20px 16px; }
+    .quick-btns { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .quick-btn { padding: 14px 6px; font-size: 0.9rem; }
+    .stats-row { gap: 8px; }
+    .stat-box { padding: 12px 6px; }
+    .stat-val { font-size: 1.2rem; }
+    #notif-btn-text { display: none; } /* icon only on tiny screens */
+  }
+
+  @media (max-width: 340px) {
+    header h1 { font-size: 1.2rem; }
+    .step-title { font-size: 1.1rem; }
+    .goal-display .goal-ml { font-size: 1.9rem; }
+  }
+
   .confetti-dot {
     position: fixed;
     width: 10px; height: 10px;
@@ -456,14 +517,21 @@
 </head>
 <body>
 
+<!-- UPDATE BANNER -->
+<div id="update-banner">
+  🎉 A new version of AquaBully is ready!
+  <button onclick="applyUpdate()">Refresh now</button>
+  <button onclick="document.getElementById('update-banner').classList.remove('show')" style="background:rgba(255,255,255,0.2);color:#fff;">Later</button>
+</div>
+
 <header>
   <div>
     <h1>💧 AquaBully</h1>
     <div class="subtitle">Your hydration overlord</div>
   </div>
-  <div style="display:flex;align-items:center;gap:10px;">
-    <button id="notif-btn" onclick="requestPushPermission()" title="Enable push notifications" style="background:rgba(255,255,255,0.18);border:1.5px solid rgba(255,255,255,0.35);border-radius:50px;padding:8px 14px;color:#fff;font-size:0.82rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;display:flex;align-items:center;gap:6px;">🔔 Enable Alerts</button>
-    <div id="temp-badge" style="background:rgba(255,255,255,0.22);border:1.5px solid rgba(255,255,255,0.35);border-radius:50px;padding:8px 18px;color:#fff;font-size:0.88rem;font-weight:700;display:flex;align-items:center;gap:6px;">🌡️ <span id="temp-val">…</span>°C</div>
+  <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+    <button id="notif-btn" onclick="requestPushPermission()" title="Enable push notifications" style="background:rgba(255,255,255,0.18);border:1.5px solid rgba(255,255,255,0.35);border-radius:50px;padding:8px 12px;color:#fff;font-size:0.82rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;display:flex;align-items:center;gap:5px;">🔔 <span id="notif-btn-text">Enable Alerts</span></button>
+    <div id="temp-badge" style="background:rgba(255,255,255,0.22);border:1.5px solid rgba(255,255,255,0.35);border-radius:50px;padding:8px 14px;color:#fff;font-size:0.88rem;font-weight:700;display:flex;align-items:center;gap:5px;">🌡️ <span id="temp-val">…</span>°C</div>
   </div>
 </header>
 
@@ -619,7 +687,10 @@
       <div id="log-list"><p style="color:var(--muted);font-size:0.88rem;text-align:center;">Nothing logged yet. Shocking.</p></div>
     </div>
 
-    <button id="reset-btn" onclick="resetApp()">↺ Reset everything (start fresh)</button>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <button id="reset-btn" onclick="resetApp()">↺ Reset everything (start fresh)</button>
+      <button id="reset-btn" onclick="checkForUpdates()" style="color:var(--ocean);">⟳ Check for updates</button>
+    </div>
 
     <!-- PWA Install Banner -->
     <div id="install-banner" style="display:none;background:linear-gradient(135deg,#e6f7ff,#d0edff);border:1.5px solid rgba(30,127,203,0.25);border-radius:18px;padding:16px 20px;display:none;flex-direction:column;gap:10px;align-items:center;text-align:center;">
@@ -973,14 +1044,64 @@ function injectManifest() {
 ═══════════════════════════════════════════════════════ */
 let deferredInstallPrompt = null; // captured beforeinstallprompt event
 
+let waitingSW = null; // holds the new SW waiting to activate
+
 async function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
   try {
-    // sw.js is now a real file — register it directly
     swReg = await navigator.serviceWorker.register('sw.js', { scope: '/' });
     console.log('[AquaBully] SW registered ✅');
+
+    // If a new SW is already waiting on load (user returned to tab)
+    if (swReg.waiting) showUpdateBanner(swReg.waiting);
+
+    // A new SW was found and starts installing
+    swReg.addEventListener('updatefound', () => {
+      const newSW = swReg.installing;
+      newSW.addEventListener('statechange', () => {
+        if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+          showUpdateBanner(newSW);
+        }
+      });
+    });
+
+    // When the new SW activates (after we told it to skip waiting), reload
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      window.location.reload();
+    });
+
+    // Listen for the SW_ACTIVATED message (after first-ever install)
+    navigator.serviceWorker.addEventListener('message', e => {
+      if (e.data && e.data.type === 'SW_ACTIVATED') {
+        console.log('[AquaBully] SW activated, cache is fresh.');
+      }
+    });
+
   } catch(e) {
     console.warn('[AquaBully] SW failed (normal on file://):', e.message);
+  }
+}
+
+function showUpdateBanner(sw) {
+  waitingSW = sw;
+  document.getElementById('update-banner').classList.add('show');
+}
+
+function applyUpdate() {
+  if (waitingSW) {
+    waitingSW.postMessage({ type: 'SKIP_WAITING' });
+  }
+  document.getElementById('update-banner').classList.remove('show');
+}
+
+async function checkForUpdates() {
+  if (!swReg) { showToast('😔 Service Worker not registered yet.'); return; }
+  showToast('🔍 Checking for updates…');
+  try {
+    await swReg.update();
+    if (!waitingSW) showToast('✅ You\'re already on the latest version!');
+  } catch(e) {
+    showToast('😅 Couldn\'t check for updates. Are you online?');
   }
 }
 
@@ -1054,14 +1175,15 @@ async function requestPushPermission() {
 
 function updateNotifBtn() {
   const btn = document.getElementById('notif-btn');
+  const txt = document.getElementById('notif-btn-text');
   if (!btn) return;
   if (Notification.permission === 'granted') {
-    btn.textContent = '🔔 Alerts On';
+    if (txt) txt.textContent = 'Alerts On';
     btn.style.background = 'rgba(255,255,255,0.35)';
     btn.style.cursor = 'default';
     btn.onclick = () => showToast('✅ Push notifications are active. No escape.');
   } else if (Notification.permission === 'denied') {
-    btn.textContent = '🔕 Blocked';
+    if (txt) txt.textContent = 'Blocked';
     btn.style.opacity = '0.6';
   }
 }
