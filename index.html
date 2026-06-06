@@ -31,7 +31,30 @@
     --muted:  #5a7a94;
     --radius: 20px;
     --shadow: 0 8px 32px rgba(30,127,203,0.13);
+    --transition: background 0.3s, color 0.3s, border-color 0.3s;
   }
+
+  /* ── DARK MODE ────────────────────────────────────── */
+  [data-theme="dark"] {
+    --bg:    #0d1b2a;
+    --card:  #162235;
+    --text:  #e2f0fb;
+    --muted: #7ba8c9;
+    --foam:  #1a2e44;
+    --shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  [data-theme="dark"] body {
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(30,127,203,0.12) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(13,79,136,0.15) 0%, transparent 50%);
+  }
+  [data-theme="dark"] input[type="text"],
+  [data-theme="dark"] input[type="number"] { background: #1a2e44; color: var(--text); border-color: rgba(91,191,255,0.2); }
+  [data-theme="dark"] .goal-display { background: linear-gradient(135deg,#1a2e44,#1d3550); }
+  [data-theme="dark"] .quick-btn { background: #1a2e44; color: var(--sky); }
+  [data-theme="dark"] .quick-btn:hover { background: #1d3550; }
+  [data-theme="dark"] .stat-box { background: #1a2e44; }
+  [data-theme="dark"] .log-item { background: #1a2e44; }
 
   body {
     font-family: 'Nunito', sans-serif;
@@ -513,6 +536,121 @@
     0%   { transform: translate(0,0) scale(1); opacity: 1; }
     100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
   }
+
+  /* ── STREAK BANNER ───────────────────────────────── */
+  .streak-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background: linear-gradient(135deg, #fff8e1, #fff3cd);
+    border: 1.5px solid rgba(255,204,68,0.5);
+    border-radius: 16px;
+    padding: 14px 20px;
+  }
+  [data-theme="dark"] .streak-banner { background: linear-gradient(135deg,#2a2010,#1e1a0e); border-color: rgba(255,204,68,0.3); }
+  .streak-flame { font-size: 2.2rem; line-height: 1; }
+  .streak-count { font-family: 'Fredoka One', cursive; font-size: 2rem; color: #e67e00; line-height: 1; }
+  .streak-label { font-size: 0.75rem; font-weight: 700; color: #b8680a; letter-spacing: 0.5px; }
+
+  /* ── WEEK CHART ───────────────────────────────────── */
+  .chart-wrap { overflow-x: auto; padding-bottom: 4px; }
+  .chart-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 110px;
+    padding: 0 4px;
+    min-width: 260px;
+  }
+  .chart-day {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    height: 100%;
+    justify-content: flex-end;
+  }
+  .chart-bar-wrap { width: 100%; flex: 1; display: flex; align-items: flex-end; }
+  .chart-bar {
+    width: 100%;
+    border-radius: 8px 8px 0 0;
+    min-height: 4px;
+    transition: height 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .chart-bar.goal-hit { background: linear-gradient(180deg, #4ecdc4, #1e7fcb); }
+  .chart-bar.goal-miss { background: linear-gradient(180deg, #a8e6ff, #5bbfff); opacity: 0.65; }
+  .chart-bar.today { background: linear-gradient(180deg, var(--sun), #ffaa00); }
+  .chart-day-label { font-size: 0.68rem; font-weight: 700; color: var(--muted); }
+  .chart-ml-label { font-size: 0.62rem; color: var(--muted); font-weight: 600; }
+
+  /* ── BADGES ───────────────────────────────────────── */
+  .badges-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  .badge-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 12px 6px;
+    border-radius: 14px;
+    border: 1.5px solid transparent;
+    text-align: center;
+  }
+  .badge-item.earned {
+    background: linear-gradient(135deg, #fff8e1, #fff3cd);
+    border-color: rgba(255,204,68,0.5);
+  }
+  [data-theme="dark"] .badge-item.earned { background: linear-gradient(135deg,#2a2010,#1e1a0e); }
+  .badge-item.locked { background: var(--foam); opacity: 0.4; filter: grayscale(1); }
+  .badge-icon { font-size: 1.8rem; line-height: 1; }
+  .badge-name { font-size: 0.62rem; font-weight: 800; color: var(--muted); line-height: 1.3; }
+
+  /* ── SETTINGS ─────────────────────────────────────── */
+  .settings-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(91,191,255,0.12);
+    gap: 12px;
+  }
+  .settings-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .settings-label { font-weight: 700; font-size: 0.88rem; }
+  .settings-sub { font-size: 0.72rem; color: var(--muted); font-weight: 600; margin-top: 2px; }
+  .interval-btns { display: flex; gap: 5px; flex-shrink: 0; }
+  .interval-btn {
+    background: var(--foam);
+    border: 1.5px solid rgba(91,191,255,0.3);
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .interval-btn.active { background: var(--ocean); color: #fff; border-color: var(--ocean); }
+
+  /* ── DARK TOGGLE IN HEADER ────────────────────────── */
+  #dark-btn {
+    background: rgba(255,255,255,0.18);
+    border: 1.5px solid rgba(255,255,255,0.35);
+    border-radius: 50%;
+    width: 36px; height: 36px;
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  #dark-btn:hover { background: rgba(255,255,255,0.28); }
 </style>
 </head>
 <body>
@@ -530,6 +668,7 @@
     <div class="subtitle">Your hydration overlord</div>
   </div>
   <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+    <button id="dark-btn" onclick="toggleDarkMode()" title="Toggle dark mode">🌙</button>
     <button id="notif-btn" onclick="requestPushPermission()" title="Enable push notifications" style="background:rgba(255,255,255,0.18);border:1.5px solid rgba(255,255,255,0.35);border-radius:50px;padding:8px 12px;color:#fff;font-size:0.82rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;display:flex;align-items:center;gap:5px;">🔔 <span id="notif-btn-text">Enable Alerts</span></button>
     <div id="temp-badge" style="background:rgba(255,255,255,0.22);border:1.5px solid rgba(255,255,255,0.35);border-radius:50px;padding:8px 14px;color:#fff;font-size:0.88rem;font-weight:700;display:flex;align-items:center;gap:5px;">🌡️ <span id="temp-val">…</span>°C</div>
   </div>
@@ -606,7 +745,15 @@
 
     <p id="greeting"></p>
 
-    <!-- Gauge + Stats -->
+    <!-- Streak Banner -->
+    <div class="streak-banner">
+      <div class="streak-flame">🔥</div>
+      <div>
+        <div class="streak-count" id="streak-count">0</div>
+        <div class="streak-label">DAY STREAK</div>
+      </div>
+      <div style="font-size:0.78rem;color:#b8680a;font-weight:700;max-width:140px;line-height:1.4;" id="streak-msg">Hit your goal today to start a streak!</div>
+    </div>
     <div class="card">
       <div class="gauge-wrap">
         <!-- Hydration Gauge SVG Bottle -->
@@ -687,6 +834,56 @@
       <div id="log-list"><p style="color:var(--muted);font-size:0.88rem;text-align:center;">Nothing logged yet. Shocking.</p></div>
     </div>
 
+    <!-- Weekly History Chart -->
+    <div class="card">
+      <div class="section-title">📊 This Week</div>
+      <div class="chart-wrap">
+        <div class="chart-bars" id="week-chart"></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:12px;font-size:0.72rem;font-weight:700;color:var(--muted);justify-content:center;flex-wrap:wrap;">
+        <span>🟦 Goal hit</span>
+        <span style="opacity:0.65;">🟦 Partial</span>
+        <span style="color:#e67e00;">🟨 Today</span>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="card">
+      <div class="section-title">🏆 Badges</div>
+      <div class="badges-grid" id="badges-grid"></div>
+    </div>
+
+    <!-- Settings -->
+    <div class="card">
+      <div class="section-title">⚙️ Settings</div>
+      <div class="settings-row">
+        <div>
+          <div class="settings-label">💧 Reminder interval</div>
+          <div class="settings-sub">How often AquaBully yells at you</div>
+        </div>
+        <div class="interval-btns">
+          <button class="interval-btn" data-mins="15" onclick="setReminderInterval(15)">15m</button>
+          <button class="interval-btn" data-mins="30" onclick="setReminderInterval(30)">30m</button>
+          <button class="interval-btn" data-mins="45" onclick="setReminderInterval(45)">45m</button>
+          <button class="interval-btn" data-mins="60" onclick="setReminderInterval(60)">1h</button>
+        </div>
+      </div>
+      <div class="settings-row">
+        <div>
+          <div class="settings-label">🌙 Dark mode</div>
+          <div class="settings-sub">For the nocturnal hydrators</div>
+        </div>
+        <button onclick="toggleDarkMode()" id="dark-mode-toggle-btn" style="background:var(--foam);border:1.5px solid rgba(91,191,255,0.3);border-radius:20px;padding:6px 16px;font-family:'Nunito',sans-serif;font-size:0.82rem;font-weight:800;color:var(--ocean);cursor:pointer;">Off</button>
+      </div>
+      <div class="settings-row">
+        <div>
+          <div class="settings-label">🔔 Notifications</div>
+          <div class="settings-sub">OS-level push reminders</div>
+        </div>
+        <button onclick="requestPushPermission()" style="background:var(--foam);border:1.5px solid rgba(91,191,255,0.3);border-radius:20px;padding:6px 16px;font-family:'Nunito',sans-serif;font-size:0.82rem;font-weight:800;color:var(--ocean);cursor:pointer;" id="notif-settings-btn">Enable</button>
+      </div>
+    </div>
+
     <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
       <button id="reset-btn" onclick="resetApp()">↺ Reset everything (start fresh)</button>
       <button id="reset-btn" onclick="checkForUpdates()" style="color:var(--ocean);">⟳ Check for updates</button>
@@ -721,6 +918,14 @@ let state = {
   setupDone:   false,
   temperature: null,
   lastNotif:   0,
+  // ── NEW ──
+  streak:           0,
+  lastDate:         '',     // 'YYYY-MM-DD' of last active day
+  goalReachedToday: false,
+  weekHistory:      [],     // [{date, consumed, goal}] newest-last, max 7
+  reminderInterval: 30,     // minutes
+  badges:           [],     // earned badge IDs
+  darkMode:         false,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -852,6 +1057,7 @@ function finishSetup() {
   state.goal       = custom;
   state.customGoal = true;
   state.setupDone  = true;
+  state.lastDate   = todayStr();
   saveState();
   showTracker();
 }
@@ -867,6 +1073,10 @@ function showTracker() {
   document.getElementById('greeting').innerHTML =
     `Hey, <span>${state.name}</span>! Your goal: <span>${state.goal} ml</span>. No excuses.`;
   updateUI();
+  renderStreak();
+  renderWeekChart();
+  renderBadges();
+  renderIntervalBtns();
   scheduleNotifications();
 }
 
@@ -881,6 +1091,7 @@ function addWater(ml) {
   saveState();
   updateUI();
   renderLog();
+  renderWeekChart();
   checkGoalReached();
   checkHeatNotif();
   showToast(getDrinkReaction(ml));
@@ -1009,12 +1220,16 @@ function checkHeatNotif() {
 
 function checkGoalReached() {
   const pct = Math.round((state.consumed / state.goal) * 100);
-  if (pct >= 100) {
+  if (pct >= 100 && !state.goalReachedToday) {
+    state.goalReachedToday = true;
+    saveState();
     const msg = `🎉 ${state.name}! You hit your goal! We're genuinely shocked and proud!`;
     showToast(msg);
     pushNotify('🎉 GOAL REACHED!', msg);
     launchConfetti();
+    renderStreak();
   }
+  checkBadges();
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -1213,25 +1428,26 @@ function pushNotify(title, body, isHeat = false) {
 }
 
 function scheduleNotifications() {
-  // Set lastNotif to NOW on first run so the first nudge fires 30 mins later,
-  // not instantly. If lastNotif is 0 (never set), initialise it.
   if (!state.lastNotif) {
     state.lastNotif = Date.now();
     saveState();
   }
 
-  const INTERVAL_MS  = 30 * 60 * 1000; // exactly 30 minutes
-  const CHECK_MS     = 30 * 1000;       // poll every 30 seconds (precise enough)
+  const CHECK_MS = 30 * 1000; // poll every 30s
 
   setInterval(() => {
     if (!state.setupDone) return;
 
+    // ── Midnight reset check ──
+    checkMidnightReset();
+
     const now  = Date.now();
     const pct  = Math.round((state.consumed / state.goal) * 100);
-    if (pct >= 100) return; // goal met — stay quiet, they earned it
+    if (pct >= 100) return;
 
+    const INTERVAL_MS = (state.reminderInterval || 30) * 60 * 1000;
     const elapsed = now - state.lastNotif;
-    if (elapsed < INTERVAL_MS) return; // not 30 mins yet
+    if (elapsed < INTERVAL_MS) return;
 
     const isHeat = state.temperature != null && state.temperature > 30 && pct < 50;
     const idx    = Math.floor(Math.random() * funnyNotifs.length);
@@ -1239,10 +1455,7 @@ function scheduleNotifications() {
       ? heatNotif(state.name, state.temperature)
       : funnyNotifs[idx](state.name, state.temperature);
 
-    // In-app toast (visible when tab is open)
     showToast(msg, isHeat);
-
-    // OS-level push notification (works when tab is in background)
     pushNotify(
       isHeat ? '🔥 Heat Alert from AquaBully!' : '💧 AquaBully Reminder',
       msg,
@@ -1299,6 +1512,215 @@ function resetApp() {
 }
 
 /* ═══════════════════════════════════════════════════════
+   DATE HELPER
+═══════════════════════════════════════════════════════ */
+function todayStr() {
+  return new Date().toISOString().slice(0, 10); // 'YYYY-MM-DD'
+}
+
+/* ═══════════════════════════════════════════════════════
+   AUTO MIDNIGHT RESET
+═══════════════════════════════════════════════════════ */
+function checkMidnightReset() {
+  const today = todayStr();
+  if (!state.lastDate) {
+    state.lastDate = today;
+    saveState();
+    return;
+  }
+  if (state.lastDate === today) return; // same day, nothing to do
+
+  // It's a new day! Archive yesterday and reset
+  const yesterday = {
+    date:     state.lastDate,
+    consumed: state.consumed,
+    goal:     state.goal,
+  };
+  state.weekHistory.push(yesterday);
+  if (state.weekHistory.length > 7) state.weekHistory.shift(); // keep 7 days
+
+  // Update streak
+  if (state.goalReachedToday) {
+    state.streak++;
+  } else {
+    state.streak = 0;
+  }
+
+  checkBadges(); // check streak badges before resetting
+
+  state.consumed        = 0;
+  state.log             = [];
+  state.lastNotif       = 0;
+  state.goalReachedToday = false;
+  state.lastDate        = today;
+  saveState();
+
+  updateUI();
+  renderLog();
+  renderStreak();
+  renderWeekChart();
+
+  showToast(`🌅 New day! Yesterday you drank ${yesterday.consumed}ml. Today's goal: ${state.goal}ml. Let's go!`);
+}
+
+/* ═══════════════════════════════════════════════════════
+   STREAK
+═══════════════════════════════════════════════════════ */
+function renderStreak() {
+  const el  = document.getElementById('streak-count');
+  const msg = document.getElementById('streak-msg');
+  if (!el) return;
+  el.textContent = state.streak;
+  if (state.streak === 0) {
+    msg.textContent = state.goalReachedToday
+      ? '🎉 Goal hit today! Come back tomorrow!'
+      : 'Hit your goal today to start a streak!';
+  } else if (state.streak < 3) {
+    msg.textContent = `${state.streak} day${state.streak > 1 ? 's' : ''} in a row! Keep it up!`;
+  } else if (state.streak < 7) {
+    msg.textContent = `${state.streak} days! You're on fire! 🔥`;
+  } else {
+    msg.textContent = `${state.streak} DAYS! You're a hydration legend! 💧`;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   WEEKLY CHART
+═══════════════════════════════════════════════════════ */
+function renderWeekChart() {
+  const wrap = document.getElementById('week-chart');
+  if (!wrap) return;
+
+  // Build 7-slot array: past 6 days from history + today
+  const days = [];
+  const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  // Past days from history (up to 6)
+  const hist = state.weekHistory.slice(-6);
+  hist.forEach(h => {
+    const d = new Date(h.date + 'T12:00:00');
+    days.push({ label: dayNames[d.getDay()], consumed: h.consumed, goal: h.goal, isToday: false });
+  });
+
+  // Today
+  const td = new Date();
+  days.push({ label: 'Today', consumed: state.consumed, goal: state.goal, isToday: true });
+
+  // Pad to 7 slots if needed
+  while (days.length < 7) days.unshift({ label: '—', consumed: 0, goal: state.goal, isToday: false, empty: true });
+
+  const maxConsumed = Math.max(...days.map(d => d.consumed), state.goal);
+
+  wrap.innerHTML = days.map(d => {
+    const pct    = d.empty ? 0 : Math.min(100, Math.round((d.consumed / d.goal) * 100));
+    const h      = Math.round((pct / 100) * 88); // max bar height 88px
+    const cls    = d.isToday ? 'today' : pct >= 100 ? 'goal-hit' : 'goal-miss';
+    const mlText = d.empty ? '' : d.consumed >= 1000
+      ? (d.consumed / 1000).toFixed(1) + 'L'
+      : d.consumed + '';
+    return `
+      <div class="chart-day">
+        <div class="chart-bar-wrap">
+          <div class="chart-bar ${cls}" style="height:${h}px;" title="${d.consumed}ml / ${d.goal}ml"></div>
+        </div>
+        <div class="chart-day-label">${d.label}</div>
+        <div class="chart-ml-label">${mlText}</div>
+      </div>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════════════════
+   BADGES
+═══════════════════════════════════════════════════════ */
+const BADGE_CATALOG = [
+  { id: 'first_sip',   icon: '💧', name: 'First Sip',     desc: 'Log your first water entry' },
+  { id: 'first_goal',  icon: '🎯', name: 'Goal Getter',   desc: 'Hit your daily goal for the first time' },
+  { id: 'streak_3',    icon: '🔥', name: '3-Day Streak',  desc: '3 days in a row' },
+  { id: 'streak_7',    icon: '⚡', name: 'Week Warrior',  desc: '7 days in a row' },
+  { id: 'volume_1L',   icon: '🌊', name: '1 Litre',       desc: 'Log 1000ml in one day' },
+  { id: 'volume_2L',   icon: '🌊', name: '2 Litres',      desc: 'Log 2000ml in one day' },
+  { id: 'early_bird',  icon: '🐦', name: 'Early Bird',    desc: 'Log water before 8am' },
+  { id: 'night_owl',   icon: '🦉', name: 'Night Owl',     desc: 'Log water after 10pm' },
+];
+
+function checkBadges() {
+  const earned = new Set(state.badges);
+  const prev   = earned.size;
+
+  if (state.log.length >= 1)       earned.add('first_sip');
+  if (state.goalReachedToday)      earned.add('first_goal');
+  if (state.streak >= 3)           earned.add('streak_3');
+  if (state.streak >= 7)           earned.add('streak_7');
+  if (state.consumed >= 1000)      earned.add('volume_1L');
+  if (state.consumed >= 2000)      earned.add('volume_2L');
+
+  // Time-based
+  const h = new Date().getHours();
+  if (state.log.length >= 1) {
+    if (h < 8)  earned.add('early_bird');
+    if (h >= 22) earned.add('night_owl');
+  }
+
+  state.badges = [...earned];
+
+  // Toast for newly earned badges
+  if (earned.size > prev) {
+    const newOnes = [...earned].filter(id => !state.badges.slice(0, prev).includes(id));
+    const badge = BADGE_CATALOG.find(b => newOnes.includes(b.id));
+    if (badge) showToast(`🏆 Badge unlocked: ${badge.icon} ${badge.name}!`);
+  }
+
+  saveState();
+  renderBadges();
+}
+
+function renderBadges() {
+  const grid = document.getElementById('badges-grid');
+  if (!grid) return;
+  const earned = new Set(state.badges);
+  grid.innerHTML = BADGE_CATALOG.map(b => `
+    <div class="badge-item ${earned.has(b.id) ? 'earned' : 'locked'}" title="${b.desc}">
+      <div class="badge-icon">${b.icon}</div>
+      <div class="badge-name">${b.name}</div>
+    </div>
+  `).join('');
+}
+
+/* ═══════════════════════════════════════════════════════
+   REMINDER INTERVAL
+═══════════════════════════════════════════════════════ */
+function setReminderInterval(mins) {
+  state.reminderInterval = mins;
+  state.lastNotif = Date.now(); // reset the clock
+  saveState();
+  renderIntervalBtns();
+  showToast(`⏱️ Reminder interval set to ${mins === 60 ? '1 hour' : mins + ' minutes'}.`);
+}
+
+function renderIntervalBtns() {
+  document.querySelectorAll('.interval-btn').forEach(btn => {
+    btn.classList.toggle('active', parseInt(btn.dataset.mins) === state.reminderInterval);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════
+   DARK MODE
+═══════════════════════════════════════════════════════ */
+function toggleDarkMode() {
+  state.darkMode = !state.darkMode;
+  applyDarkMode();
+  saveState();
+}
+
+function applyDarkMode() {
+  document.documentElement.setAttribute('data-theme', state.darkMode ? 'dark' : '');
+  const btn  = document.getElementById('dark-btn');
+  const btn2 = document.getElementById('dark-mode-toggle-btn');
+  if (btn)  btn.textContent  = state.darkMode ? '☀️' : '🌙';
+  if (btn2) btn2.textContent = state.darkMode ? 'On' : 'Off';
+}
+
+/* ═══════════════════════════════════════════════════════
    INIT
 ═══════════════════════════════════════════════════════ */
 function init() {
@@ -1307,14 +1729,28 @@ function init() {
   registerServiceWorker();
   fetchTemperature();
   updateNotifBtn();
+  applyDarkMode();
+
+  // Ensure lastDate is set
+  if (!state.lastDate) { state.lastDate = todayStr(); saveState(); }
+
+  // Run midnight reset check immediately on load
+  checkMidnightReset();
 
   if (state.setupDone) {
     showTracker();
     renderLog();
+    renderStreak();
+    renderWeekChart();
+    renderBadges();
+    renderIntervalBtns();
     document.getElementById('input-name').value   = state.name;
     document.getElementById('input-weight').value = state.weight;
-    // Show install banner if prompt already captured before setup finished
     showInstallBanner();
+    // Update notif settings btn
+    const nsb = document.getElementById('notif-settings-btn');
+    if (nsb && Notification.permission === 'granted') { nsb.textContent = 'Active ✅'; nsb.style.cursor = 'default'; }
+    if (nsb && Notification.permission === 'denied')  { nsb.textContent = 'Blocked 🚫'; }
   }
 }
 
