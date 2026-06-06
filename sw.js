@@ -1,5 +1,5 @@
 // ── bump this string every time you deploy a new version ──
-const CACHE = 'aquabully-v3';
+const CACHE = 'aquabully-v4';
 
 self.addEventListener('install', e => {
   // Do NOT skipWaiting automatically — let the page control activation
