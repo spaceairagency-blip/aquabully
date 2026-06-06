@@ -1,10 +1,15 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>AquaBully 💧</title>
+<meta name="theme-color" content="#1e7fcb" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="AquaBully" />
+<link id="manifest-link" rel="manifest" href="" />
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
 <style>
   /* ── RESET & BASE ─────────────────────────────────── */
@@ -616,6 +621,14 @@
 
     <button id="reset-btn" onclick="resetApp()">↺ Reset everything (start fresh)</button>
 
+    <!-- PWA Install Banner -->
+    <div id="install-banner" style="display:none;background:linear-gradient(135deg,#e6f7ff,#d0edff);border:1.5px solid rgba(30,127,203,0.25);border-radius:18px;padding:16px 20px;display:none;flex-direction:column;gap:10px;align-items:center;text-align:center;">
+      <div style="font-family:'Fredoka One',cursive;font-size:1.1rem;color:#1e7fcb;">📲 Install AquaBully</div>
+      <div style="font-size:0.82rem;color:#5a7a94;font-weight:600;line-height:1.5;">Add to your home screen for push alerts even when your browser is closed. Your kidneys demand it.</div>
+      <button id="install-btn" onclick="installPWA()" class="btn" style="width:auto;padding:11px 28px;font-size:0.95rem;">⬇ Add to Home Screen</button>
+      <button onclick="document.getElementById('install-banner').style.display='none'" style="background:none;border:none;color:#5a7a94;font-size:0.78rem;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;">No thanks, I enjoy suffering</button>
+    </div>
+
   </div>
   <!-- END MAIN TRACKER -->
 
@@ -946,32 +959,69 @@ function checkGoalReached() {
 // We encode the SW as a Blob URL so the whole app stays one file.
 let swReg = null;
 
+/* ═══════════════════════════════════════════════════════
+   MANIFEST (Blob URL — keeps everything in one file)
+═══════════════════════════════════════════════════════ */
+function injectManifest() {
+  // manifest.json is now a real file — just set the href
+  document.getElementById('manifest-link').setAttribute('href', 'manifest.json');
+}
+
+/* ═══════════════════════════════════════════════════════
+   SERVICE WORKER (Blob URL — one file, full PWA)
+   Handles: install prompt, offline cache, notifications
+═══════════════════════════════════════════════════════ */
+let deferredInstallPrompt = null; // captured beforeinstallprompt event
+
 async function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
   try {
-    const swCode = `
-self.addEventListener('notificationclick', e => {
-  e.notification.close();
-  e.waitUntil(clients.matchAll({type:'window'}).then(list => {
-    for (const c of list) { if ('focus' in c) return c.focus(); }
-    if (clients.openWindow) return clients.openWindow('/');
-  }));
+    // sw.js is now a real file — register it directly
+    swReg = await navigator.serviceWorker.register('sw.js', { scope: '/' });
+    console.log('[AquaBully] SW registered ✅');
+  } catch(e) {
+    console.warn('[AquaBully] SW failed (normal on file://):', e.message);
+  }
+}
+
+/* ── PWA Install Prompt ──────────────────────────────── */
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();                    // stop mini-infobar
+  deferredInstallPrompt = e;
+  // Show banner only after setup is done
+  if (state.setupDone) showInstallBanner();
 });
-self.addEventListener('push', e => {
-  const d = e.data ? e.data.json() : {};
-  self.registration.showNotification(d.title || 'AquaBully 💧', {
-    body: d.body || 'Drink water.',
-    icon: 'https://fav.farm/💧',
-    badge: 'https://fav.farm/💧',
-    tag: 'aquabully',
-    renotify: true,
-  });
+
+window.addEventListener('appinstalled', () => {
+  hideInstallBanner();
+  showToast('🎉 AquaBully installed! We live in your phone now. No escape. 💧');
+  deferredInstallPrompt = null;
 });
-    `;
-    const blob = new Blob([swCode], { type: 'application/javascript' });
-    const swUrl = URL.createObjectURL(blob);
-    swReg = await navigator.serviceWorker.register(swUrl, { scope: '/' });
-  } catch(e) { /* SW not critical — in-tab Notification API still works */ }
+
+function showInstallBanner() {
+  if (!deferredInstallPrompt) return;
+  const b = document.getElementById('install-banner');
+  if (b) b.style.display = 'flex';
+}
+
+function hideInstallBanner() {
+  const b = document.getElementById('install-banner');
+  if (b) b.style.display = 'none';
+}
+
+async function installPWA() {
+  if (!deferredInstallPrompt) {
+    showToast('😅 Install prompt not available. Try: browser menu → "Add to Home Screen".');
+    return;
+  }
+  deferredInstallPrompt.prompt();
+  const { outcome } = await deferredInstallPrompt.userChoice;
+  if (outcome === 'accepted') {
+    showToast('Installing… your kidneys thank you. 💧');
+  } else {
+    showToast('Declined. Bold choice. We judge you. 😤');
+  }
+  deferredInstallPrompt = null;
 }
 
 async function requestPushPermission() {
@@ -1041,33 +1091,45 @@ function pushNotify(title, body, isHeat = false) {
 }
 
 function scheduleNotifications() {
-  // Check every 60s; fire push if 30+ mins since last nudge and goal not met
+  // Set lastNotif to NOW on first run so the first nudge fires 30 mins later,
+  // not instantly. If lastNotif is 0 (never set), initialise it.
+  if (!state.lastNotif) {
+    state.lastNotif = Date.now();
+    saveState();
+  }
+
+  const INTERVAL_MS  = 30 * 60 * 1000; // exactly 30 minutes
+  const CHECK_MS     = 30 * 1000;       // poll every 30 seconds (precise enough)
+
   setInterval(() => {
     if (!state.setupDone) return;
-    const pct    = Math.round((state.consumed / state.goal) * 100);
-    const now    = Date.now();
+
+    const now  = Date.now();
+    const pct  = Math.round((state.consumed / state.goal) * 100);
+    if (pct >= 100) return; // goal met — stay quiet, they earned it
+
+    const elapsed = now - state.lastNotif;
+    if (elapsed < INTERVAL_MS) return; // not 30 mins yet
+
     const isHeat = state.temperature != null && state.temperature > 30 && pct < 50;
+    const idx    = Math.floor(Math.random() * funnyNotifs.length);
+    const msg    = isHeat
+      ? heatNotif(state.name, state.temperature)
+      : funnyNotifs[idx](state.name, state.temperature);
 
-    if (pct < 100 && now - state.lastNotif > 29 * 60 * 1000) {
-      const idx = Math.floor(Math.random() * funnyNotifs.length);
-      const msg = isHeat
-        ? heatNotif(state.name, state.temperature)
-        : funnyNotifs[idx](state.name, state.temperature);
+    // In-app toast (visible when tab is open)
+    showToast(msg, isHeat);
 
-      // Always show in-app toast
-      showToast(msg, isHeat);
+    // OS-level push notification (works when tab is in background)
+    pushNotify(
+      isHeat ? '🔥 Heat Alert from AquaBully!' : '💧 AquaBully Reminder',
+      msg,
+      isHeat
+    );
 
-      // Also fire real OS push notification
-      pushNotify(
-        isHeat ? '🔥 Heat Alert from AquaBully!' : '💧 AquaBully Reminder',
-        msg,
-        isHeat
-      );
-
-      state.lastNotif = now;
-      saveState();
-    }
-  }, 60 * 1000);
+    state.lastNotif = now;
+    saveState();
+  }, CHECK_MS);
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -1119,8 +1181,9 @@ function resetApp() {
 ═══════════════════════════════════════════════════════ */
 function init() {
   loadState();
-  fetchTemperature();
+  injectManifest();
   registerServiceWorker();
+  fetchTemperature();
   updateNotifBtn();
 
   if (state.setupDone) {
@@ -1128,6 +1191,8 @@ function init() {
     renderLog();
     document.getElementById('input-name').value   = state.name;
     document.getElementById('input-weight').value = state.weight;
+    // Show install banner if prompt already captured before setup finished
+    showInstallBanner();
   }
 }
 
