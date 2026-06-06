@@ -1,0 +1,24 @@
+{
+  "name": "AquaBully",
+  "short_name": "AquaBully",
+  "description": "Your aggressive-but-cute hydration overlord",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f0f9ff",
+  "theme_color": "#1e7fcb",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "https://fav.farm/💧", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "https://fav.farm/💧", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "categories": ["health", "lifestyle"],
+  "shortcuts": [
+    {
+      "name": "Log 250 ml",
+      "short_name": "250 ml",
+      "description": "Quick log a glass",
+      "url": ".?log=250",
+      "icons": [{ "src": "https://fav.farm/💧", "sizes": "96x96" }]
+    }
+  ]
+}
