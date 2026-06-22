@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +13,7 @@
 <link id="manifest-link" rel="manifest" href="" />
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
 <style>
+  /* ── RESET & BASE ─────────────────────────────────── */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
@@ -33,6 +35,7 @@
     --transition: background 0.3s, color 0.3s, border-color 0.3s;
   }
 
+  /* ── DARK MODE ────────────────────────────────────── */
   [data-theme="dark"] {
     --bg:    #0d1b2a;
     --card:  #162235;
@@ -69,6 +72,7 @@
     -webkit-tap-highlight-color: transparent;
   }
 
+  /* ── HEADER ───────────────────────────────────────── */
   header {
     width: 100%;
     background: linear-gradient(135deg, var(--ocean) 0%, var(--sky) 100%);
@@ -111,6 +115,7 @@
     cursor: default;
   }
 
+  /* ── MAIN WRAPPER ─────────────────────────────────── */
   main {
     width: 100%;
     max-width: 540px;
@@ -120,6 +125,7 @@
     gap: 22px;
   }
 
+  /* ── CARD ─────────────────────────────────────────── */
   .card {
     background: var(--card);
     border-radius: var(--radius);
@@ -128,6 +134,7 @@
     border: 1.5px solid rgba(91,191,255,0.18);
   }
 
+  /* ── SETUP FLOW ───────────────────────────────────── */
   #setup-flow { display: flex; flex-direction: column; gap: 20px; }
 
   .step { display: none; flex-direction: column; gap: 16px; }
@@ -241,6 +248,7 @@
   }
   .btn-secondary:hover { background: #d6f0ff; box-shadow: none; }
 
+  /* ── HYDRATION GAUGE ──────────────────────────────── */
   #gauge-section { display: none; }
 
   .gauge-wrap {
@@ -259,6 +267,7 @@
 
   .bottle-svg { width: 100%; height: 100%; }
 
+  /* Animated water fill inside the gauge */
   #water-fill {
     transition: height 0.7s cubic-bezier(0.34,1.56,0.64,1),
                 y      0.7s cubic-bezier(0.34,1.56,0.64,1);
@@ -279,6 +288,7 @@
     text-align: center;
   }
 
+  /* ── STATS ROW ────────────────────────────────────── */
   .stats-row {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -307,6 +317,7 @@
     letter-spacing: 0.3px;
   }
 
+  /* ── QUICK ADD BUTTONS ────────────────────────────── */
   .quick-btns {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -340,6 +351,7 @@
   .custom-row input { flex: 1; }
   .custom-row .btn { width: auto; padding: 13px 22px; font-size: 0.95rem; }
 
+  /* ── LOG HISTORY ──────────────────────────────────── */
   #log-list {
     display: flex;
     flex-direction: column;
@@ -379,6 +391,7 @@
   }
   .log-del:hover { background: #fff0f3; }
 
+  /* ── NOTIFICATION TOAST ───────────────────────────── */
   #toast {
     position: fixed;
     bottom: 30px;
@@ -401,6 +414,7 @@
   #toast.heat { background: linear-gradient(135deg, #ff4757, #ff6b8a); }
   #toast.show { transform: translateX(-50%) translateY(0); }
 
+  /* ── DANGER BANNER ────────────────────────────────── */
   #heat-banner {
     display: none;
     background: linear-gradient(135deg, #fff0f2, #ffd6dd);
@@ -414,6 +428,7 @@
     line-height: 1.5;
   }
 
+  /* ── SECTION TITLE ────────────────────────────────── */
   .section-title {
     font-family: 'Fredoka One', cursive;
     font-size: 1.15rem;
@@ -421,6 +436,7 @@
     margin-bottom: 14px;
   }
 
+  /* ── RESET LINK ───────────────────────────────────── */
   #reset-btn {
     background: none;
     border: none;
@@ -433,6 +449,81 @@
     padding: 4px;
   }
   #reset-btn:hover { color: var(--coral); }
+
+  /* ── WAVE DECORATION ──────────────────────────────── */
+  .wave-sep {
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    margin: -2px 0;
+  }
+
+  /* ── GREET ────────────────────────────────────────── */
+  #greeting {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5rem;
+    color: var(--ocean);
+    text-align: center;
+  }
+  #greeting span { color: var(--coral); }
+
+  /* ── UPDATE BANNER ────────────────────────────────── */
+  #update-banner {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2000;
+    background: linear-gradient(135deg, #0d4f88, #1e7fcb);
+    color: #fff;
+    padding: 14px 20px;
+    padding-top: calc(14px + env(safe-area-inset-top));
+    text-align: center;
+    font-size: 0.88rem;
+    font-weight: 700;
+    font-family: 'Nunito', sans-serif;
+    box-shadow: 0 4px 20px rgba(13,79,136,0.4);
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  #update-banner.show { display: flex; }
+  #update-banner button {
+    background: #fff;
+    color: var(--ocean);
+    border: none;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.82rem;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  /* ── MOBILE TWEAKS ────────────────────────────────── */
+  .btn, .quick-btn, input, button {
+    touch-action: manipulation; /* eliminates 300ms tap delay */
+  }
+
+  @media (max-width: 400px) {
+    main { padding: 18px 12px 0; gap: 16px; }
+    .card { padding: 20px 16px; }
+    .quick-btns { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .quick-btn { padding: 14px 6px; font-size: 0.9rem; }
+    .stats-row { gap: 8px; }
+    .stat-box { padding: 12px 6px; }
+    .stat-val { font-size: 1.2rem; }
+    #notif-btn-text { display: none; } /* icon only on tiny screens */
+  }
+
+  @media (max-width: 340px) {
+    header h1 { font-size: 1.2rem; }
+    .step-title { font-size: 1.1rem; }
+    .goal-display .goal-ml { font-size: 1.9rem; }
+  }
 
   .confetti-dot {
     position: fixed;
@@ -447,6 +538,7 @@
     100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
   }
 
+  /* ── STREAK BANNER ───────────────────────────────── */
   .streak-banner {
     display: flex;
     align-items: center;
@@ -462,6 +554,7 @@
   .streak-count { font-family: 'Fredoka One', cursive; font-size: 2rem; color: #e67e00; line-height: 1; }
   .streak-label { font-size: 0.75rem; font-weight: 700; color: #b8680a; letter-spacing: 0.5px; }
 
+  /* ── WEEK CHART ───────────────────────────────────── */
   .chart-wrap { overflow-x: auto; padding-bottom: 4px; }
   .chart-bars {
     display: flex;
@@ -493,6 +586,7 @@
   .chart-day-label { font-size: 0.68rem; font-weight: 700; color: var(--muted); }
   .chart-ml-label { font-size: 0.62rem; color: var(--muted); font-weight: 600; }
 
+  /* ── BADGES ───────────────────────────────────────── */
   .badges-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -517,6 +611,7 @@
   .badge-icon { font-size: 1.8rem; line-height: 1; }
   .badge-name { font-size: 0.62rem; font-weight: 800; color: var(--muted); line-height: 1.3; }
 
+  /* ── SETTINGS ─────────────────────────────────────── */
   .settings-row {
     display: flex;
     justify-content: space-between;
@@ -543,6 +638,7 @@
   }
   .interval-btn.active { background: var(--ocean); color: #fff; border-color: var(--ocean); }
 
+  /* ── DARK TOGGLE IN HEADER ────────────────────────── */
   #dark-btn {
     background: rgba(255,255,255,0.18);
     border: 1.5px solid rgba(255,255,255,0.35);
@@ -556,70 +652,11 @@
     transition: background 0.2s;
   }
   #dark-btn:hover { background: rgba(255,255,255,0.28); }
-
-  #update-banner {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 2000;
-    background: linear-gradient(135deg, #0d4f88, #1e7fcb);
-    color: #fff;
-    padding: 14px 20px;
-    padding-top: calc(14px + env(safe-area-inset-top));
-    text-align: center;
-    font-size: 0.88rem;
-    font-weight: 700;
-    font-family: 'Nunito', sans-serif;
-    box-shadow: 0 4px 20px rgba(13,79,136,0.4);
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  #update-banner.show { display: flex; }
-  #update-banner button {
-    background: #fff;
-    color: var(--ocean);
-    border: none;
-    border-radius: 20px;
-    padding: 6px 16px;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 800;
-    font-size: 0.82rem;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-
-  .btn, .quick-btn, input, button { touch-action: manipulation; }
-
-  @media (max-width: 400px) {
-    main { padding: 18px 12px 0; gap: 16px; }
-    .card { padding: 20px 16px; }
-    .quick-btns { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-    .quick-btn { padding: 14px 6px; font-size: 0.9rem; }
-    .stats-row { gap: 8px; }
-    .stat-box { padding: 12px 6px; }
-    .stat-val { font-size: 1.2rem; }
-    #notif-btn-text { display: none; }
-  }
-
-  @media (max-width: 340px) {
-    header h1 { font-size: 1.2rem; }
-    .step-title { font-size: 1.1rem; }
-    .goal-display .goal-ml { font-size: 1.9rem; }
-  }
-
-  #greeting {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.5rem;
-    color: var(--ocean);
-    text-align: center;
-  }
-  #greeting span { color: var(--coral); }
 </style>
 </head>
 <body>
 
+<!-- UPDATE BANNER -->
 <div id="update-banner">
   🎉 A new version of AquaBully is ready!
   <button onclick="applyUpdate()">Refresh now</button>
@@ -640,11 +677,14 @@
 
 <main>
 
+  <!-- HEAT BANNER -->
   <div id="heat-banner"></div>
 
+  <!-- ════ SETUP FLOW (shown until complete) ════ -->
   <div class="card" id="setup-card">
     <div id="setup-flow">
 
+      <!-- STEP 1: Name -->
       <div class="step active" id="step-1">
         <div class="step-header">
           <div class="step-num">1</div>
@@ -658,6 +698,7 @@
         <button class="btn" onclick="goStep2()">Next →</button>
       </div>
 
+      <!-- STEP 2: Weight -->
       <div class="step" id="step-2">
         <div class="step-header">
           <div class="step-num">2</div>
@@ -672,6 +713,7 @@
         <button class="btn btn-secondary" onclick="goStep(1)">← Back</button>
       </div>
 
+      <!-- STEP 3: Goal Confirm -->
       <div class="step" id="step-3">
         <div class="step-header">
           <div class="step-num">3</div>
@@ -697,11 +739,14 @@
 
     </div>
   </div>
+  <!-- END SETUP -->
 
+  <!-- ════ MAIN TRACKER (hidden until setup done) ════ -->
   <div id="gauge-section">
 
     <p id="greeting"></p>
 
+    <!-- Streak Banner -->
     <div class="streak-banner">
       <div class="streak-flame">🔥</div>
       <div>
@@ -710,33 +755,45 @@
       </div>
       <div style="font-size:0.78rem;color:#b8680a;font-weight:700;max-width:140px;line-height:1.4;" id="streak-msg">Hit your goal today to start a streak!</div>
     </div>
-
     <div class="card">
       <div class="gauge-wrap">
+        <!-- Hydration Gauge SVG Bottle -->
         <div class="gauge-bottle">
           <svg class="bottle-svg" viewBox="0 0 110 200" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <clipPath id="bottle-clip">
+                <!-- Bottle shape: neck then body -->
                 <path d="M38,10 L38,30 Q38,38 28,42 L20,48 Q12,54 12,66 L12,175 Q12,188 30,188 L80,188 Q98,188 98,175 L98,66 Q98,54 90,48 L82,42 Q72,38 72,30 L72,10 Z" />
               </clipPath>
+              <!-- wave animation -->
               <linearGradient id="water-grad" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stop-color="#5bbfff" />
                 <stop offset="100%" stop-color="#1e7fcb" />
               </linearGradient>
             </defs>
+
+            <!-- Bottle outline -->
             <path d="M38,10 L38,30 Q38,38 28,42 L20,48 Q12,54 12,66 L12,175 Q12,188 30,188 L80,188 Q98,188 98,175 L98,66 Q98,54 90,48 L82,42 Q72,38 72,30 L72,10 Z"
               fill="#e6f7ff" stroke="#5bbfff" stroke-width="2.5" />
+
+            <!-- Water fill (clipped to bottle shape) -->
             <g clip-path="url(#bottle-clip)">
               <rect id="water-fill" x="0" y="188" width="110" height="0" fill="url(#water-grad)" opacity="0.85" />
+              <!-- wave top -->
               <path id="wave-path" d="" fill="#5bbfff" opacity="0.4" />
             </g>
+
+            <!-- Percentage ticks -->
             <line x1="10" y1="48"  x2="14" y2="48"  stroke="#aaa" stroke-width="1"/>
             <line x1="10" y1="88"  x2="14" y2="88"  stroke="#aaa" stroke-width="1"/>
             <line x1="10" y1="128" x2="14" y2="128" stroke="#aaa" stroke-width="1"/>
             <line x1="10" y1="168" x2="14" y2="168" stroke="#aaa" stroke-width="1"/>
+
+            <!-- Bottle cap -->
             <rect x="36" y="4" width="38" height="10" rx="4" fill="#1e7fcb" />
           </svg>
         </div>
+
         <div class="gauge-percent"><span id="pct-display">0</span>%</div>
         <div class="gauge-sub"><span id="consumed-display">0</span> / <span id="goal-display-main">0</span> ml</div>
       </div>
@@ -757,6 +814,7 @@
       </div>
     </div>
 
+    <!-- Quick Add -->
     <div class="card">
       <div class="section-title">💧 Log Water</div>
       <div class="quick-btns">
@@ -771,11 +829,13 @@
       </div>
     </div>
 
+    <!-- Log History -->
     <div class="card">
       <div class="section-title">📋 Today's Log</div>
       <div id="log-list"><p style="color:var(--muted);font-size:0.88rem;text-align:center;">Nothing logged yet. Shocking.</p></div>
     </div>
 
+    <!-- Weekly History Chart -->
     <div class="card">
       <div class="section-title">📊 This Week</div>
       <div class="chart-wrap">
@@ -788,14 +848,16 @@
       </div>
     </div>
 
+    <!-- Badges -->
     <div class="card">
       <div class="section-title">🏆 Badges</div>
       <div class="badges-grid" id="badges-grid"></div>
     </div>
 
+    <!-- Settings -->
     <div class="card">
       <div class="section-title">⚙️ Settings</div>
-      <div class="settings-row">
+      <div class="settings-row" style="flex-wrap:wrap;">
         <div>
           <div class="settings-label">💧 Reminder interval</div>
           <div class="settings-sub">How often AquaBully yells at you</div>
@@ -806,6 +868,19 @@
           <button class="interval-btn" data-mins="45" onclick="setReminderInterval(45)">45m</button>
           <button class="interval-btn" data-mins="60" onclick="setReminderInterval(60)">1h</button>
         </div>
+        <div style="display:flex;align-items:center;gap:6px;width:100%;justify-content:flex-end;">
+          <span class="settings-sub" style="margin:0;">Custom:</span>
+          <input type="number" id="custom-interval-input" min="1" max="1440" placeholder="mins"
+                 style="width:70px;padding:6px 8px;border:1.5px solid rgba(91,191,255,0.35);border-radius:10px;font-size:0.82rem;font-weight:700;text-align:center;background:var(--foam);color:var(--text);" />
+          <button onclick="applyCustomInterval()" style="background:var(--ocean);color:#fff;border:none;border-radius:10px;padding:6px 12px;font-size:0.78rem;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">Set</button>
+        </div>
+      </div>
+      <div class="settings-row">
+        <div>
+          <div class="settings-label">🔔 Test notification</div>
+          <div class="settings-sub">Make sure alerts are working</div>
+        </div>
+        <button onclick="sendTestNotification()" style="background:var(--foam);border:1.5px solid rgba(91,191,255,0.3);border-radius:20px;padding:6px 16px;font-family:'Nunito',sans-serif;font-size:0.82rem;font-weight:800;color:var(--ocean);cursor:pointer;">Send test</button>
       </div>
       <div class="settings-row">
         <div>
@@ -828,7 +903,8 @@
       <button id="reset-btn" onclick="checkForUpdates()" style="color:var(--ocean);">⟳ Check for updates</button>
     </div>
 
-    <div id="install-banner" style="display:none;background:linear-gradient(135deg,#e6f7ff,#d0edff);border:1.5px solid rgba(30,127,203,0.25);border-radius:18px;padding:16px 20px;flex-direction:column;gap:10px;align-items:center;text-align:center;">
+    <!-- PWA Install Banner -->
+    <div id="install-banner" style="display:none;background:linear-gradient(135deg,#e6f7ff,#d0edff);border:1.5px solid rgba(30,127,203,0.25);border-radius:18px;padding:16px 20px;display:none;flex-direction:column;gap:10px;align-items:center;text-align:center;">
       <div style="font-family:'Fredoka One',cursive;font-size:1.1rem;color:#1e7fcb;">📲 Install AquaBully</div>
       <div style="font-size:0.82rem;color:#5a7a94;font-weight:600;line-height:1.5;">Add to your home screen for push alerts even when your browser is closed. Your kidneys demand it.</div>
       <button id="install-btn" onclick="installPWA()" class="btn" style="width:auto;padding:11px 28px;font-size:0.95rem;">⬇ Add to Home Screen</button>
@@ -836,44 +912,53 @@
     </div>
 
   </div>
+  <!-- END MAIN TRACKER -->
 
 </main>
 
+<!-- TOAST -->
 <div id="toast"></div>
 
 <script>
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    STATE
-═══════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 let state = {
-  name: '', weight: 0, goal: 2450, consumed: 0, log: [],
-  setupDone: false, temperature: null, lastNotif: 0,
-  streak: 0, lastDate: '', goalReachedToday: false,
-  weekHistory: [], reminderInterval: 30,
-  badges: [], darkMode: false,
+  name:        '',
+  weight:      0,
+  goal:        2450,
+  consumed:    0,
+  log:         [],   // [{ml, time}]
+  setupDone:   false,
+  temperature: null,
+  lastNotif:   0,
+  // ── NEW ──
+  streak:           0,
+  lastDate:         '',     // 'YYYY-MM-DD' of last active day
+  goalReachedToday: false,
+  weekHistory:      [],     // [{date, consumed, goal}] newest-last, max 7
+  reminderInterval: 30,     // minutes
+  badges:           [],     // earned badge IDs
+  darkMode:         false,
 };
 
-function saveState() { localStorage.setItem('aquabully_state', JSON.stringify(state)); }
+/* ═══════════════════════════════════════════════════════
+   PERSISTENCE
+═══════════════════════════════════════════════════════ */
+function saveState() {
+  localStorage.setItem('aquabully_state', JSON.stringify(state));
+}
+
 function loadState() {
   const raw = localStorage.getItem('aquabully_state');
-  if (raw) { try { state = { ...state, ...JSON.parse(raw) }; } catch(e) {} }
+  if (raw) {
+    try { state = { ...state, ...JSON.parse(raw) }; } catch(e) {}
+  }
 }
 
-/* ═══════════════════════════════════════════════
-   ✅ FIX 1: todayStr() — use LOCAL date, not UTC
-   Bug: toISOString() returns UTC date. In UTC+6,
-   after 6pm local the UTC date rolls to "tomorrow",
-   triggering a false midnight reset and archiving
-   today's data a full day early.
-═══════════════════════════════════════════════ */
-function todayStr() {
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}-${m}-${day}`;   // LOCAL date, always correct
-}
-
+/* ═══════════════════════════════════════════════════════
+   GOAL CALCULATION  :  (weight × 35) + heatFactor
+═══════════════════════════════════════════════════════ */
 function calcHeatFactor(temp) {
   if (temp == null) return 0;
   if (temp > 35) return 600;
@@ -881,36 +966,58 @@ function calcHeatFactor(temp) {
   if (temp > 25) return 200;
   return 0;
 }
-function calcGoal(weight, temp) { return Math.round((weight * 35) + calcHeatFactor(temp)); }
 
-/* ═══════════════════════════════════════════════
-   TEMPERATURE
-═══════════════════════════════════════════════ */
+function calcGoal(weight, temp) {
+  return Math.round((weight * 35) + calcHeatFactor(temp));
+}
+
+/* ═══════════════════════════════════════════════════════
+   TEMPERATURE API
+   Strategy: browser Geolocation → open-meteo (no key needed)
+   Fallback: wttr.in auto-detects by IP, no CORS issues
+═══════════════════════════════════════════════════════ */
 async function fetchTemperature() {
   const badge = document.getElementById('temp-val');
   badge.textContent = '…';
+
+  // Helper: once we have lat/lon, hit Open-Meteo
   async function fromCoords(lat, lon) {
-    const res  = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+    const res  = await fetch(url);
     const data = await res.json();
     return Math.round(data.current_weather.temperature);
   }
+
+  // Helper: wttr.in IP-based fallback (returns JSON)
   async function fromWttr() {
     const res  = await fetch('https://wttr.in/?format=j1');
     const data = await res.json();
     return Math.round(parseFloat(data.current_condition[0].temp_C));
   }
+
   try {
     let temp;
     if ('geolocation' in navigator) {
+      // Try GPS first (most accurate)
       temp = await new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(
-          async pos => { try { resolve(await fromCoords(pos.coords.latitude, pos.coords.longitude)); } catch(e) { reject(e); } },
-          () => reject(new Error('geo denied')), { timeout: 6000 }
+          async pos => {
+            try { resolve(await fromCoords(pos.coords.latitude, pos.coords.longitude)); }
+            catch(e) { reject(e); }
+          },
+          () => reject(new Error('geo denied')),
+          { timeout: 6000 }
         );
-      }).catch(() => fromWttr());
-    } else { temp = await fromWttr(); }
+      }).catch(() => fromWttr()); // if GPS denied/fails → wttr.in
+    } else {
+      temp = await fromWttr();
+    }
     applyTemperature(temp);
-  } catch(e) { try { applyTemperature(await fromWttr()); } catch(e2) { badge.textContent = '?'; } }
+  } catch(e) {
+    // Last-resort: wttr.in
+    try { applyTemperature(await fromWttr()); }
+    catch(e2) { badge.textContent = '?'; }
+  }
 }
 
 function applyTemperature(temp) {
@@ -920,22 +1027,27 @@ function applyTemperature(temp) {
   checkHeatBanner();
   if (state.setupDone && !state.customGoal) {
     state.goal = calcGoal(state.weight, temp);
-    saveState(); updateUI();
+    saveState();
+    updateUI();
   }
 }
 
-/* ═══════════════════════════════════════════════
-   SETUP
-═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   SETUP STEPS
+═══════════════════════════════════════════════════════ */
 function goStep(n) {
   document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
   document.getElementById('step-' + n).classList.add('active');
 }
+
 function goStep2() {
   const name = document.getElementById('input-name').value.trim();
   if (!name) { showToast('😑 We need your name. It is literally one field.'); return; }
-  state.name = name; saveState(); goStep(2);
+  state.name = name;
+  saveState();
+  goStep(2);
 }
+
 function goStep3() {
   const w = parseFloat(document.getElementById('input-weight').value);
   if (!w || w < 20 || w > 300) { showToast('😤 Please enter a real weight between 20–300 kg.'); return; }
@@ -946,77 +1058,108 @@ function goStep3() {
   const slider = document.getElementById('goal-slider');
   slider.value = suggested;
   document.getElementById('custom-goal-ml').textContent = suggested;
-  saveState(); goStep(3);
-}
-function onSliderChange(val) { document.getElementById('custom-goal-ml').textContent = val; }
-function finishSetup() {
-  const custom = parseInt(document.getElementById('goal-slider').value);
-  state.goal = custom; state.customGoal = true;
-  state.setupDone = true; state.lastDate = todayStr();
-  saveState(); showTracker();
+  saveState();
+  goStep(3);
 }
 
-/* ═══════════════════════════════════════════════
+function onSliderChange(val) {
+  document.getElementById('custom-goal-ml').textContent = val;
+}
+
+function finishSetup() {
+  const custom = parseInt(document.getElementById('goal-slider').value);
+  state.goal       = custom;
+  state.customGoal = true;
+  state.setupDone  = true;
+  state.lastDate   = todayStr();
+  saveState();
+  showTracker();
+}
+
+/* ═══════════════════════════════════════════════════════
    SHOW / HIDE
-═══════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 function showTracker() {
-  document.getElementById('setup-card').style.display = 'none';
+  document.getElementById('setup-card').style.display   = 'none';
   document.getElementById('gauge-section').style.display = 'flex';
   document.getElementById('gauge-section').style.flexDirection = 'column';
   document.getElementById('gauge-section').style.gap = '22px';
   document.getElementById('greeting').innerHTML =
     `Hey, <span>${state.name}</span>! Your goal: <span>${state.goal} ml</span>. No excuses.`;
-  updateUI(); renderStreak(); renderWeekChart(); renderBadges(); renderIntervalBtns();
+  updateUI();
+  renderStreak();
+  renderWeekChart();
+  renderBadges();
+  renderIntervalBtns();
   scheduleNotifications();
 }
 
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    ADD WATER
-═══════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 function addWater(ml) {
   const now = new Date();
   const timeStr = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-  state.consumed += ml; state.log.unshift({ ml, time: timeStr });
-  saveState(); updateUI(); renderLog(); renderWeekChart();
-  checkGoalReached(); checkHeatNotif();
+  state.consumed += ml;
+  state.log.unshift({ ml, time: timeStr });
+  saveState();
+  updateUI();
+  renderLog();
+  renderWeekChart();
+  checkGoalReached();
+  checkHeatNotif();
   showToast(getDrinkReaction(ml));
 }
+
 function addCustom() {
   const val = parseInt(document.getElementById('custom-ml').value);
-  if (!val || val < 1 || val > 2000) { showToast('😑 Enter a number between 1 and 2000 ml. We believe in you.'); return; }
+  if (!val || val < 1 || val > 2000) {
+    showToast('😑 Enter a number between 1 and 2000 ml. We believe in you.');
+    return;
+  }
   document.getElementById('custom-ml').value = '';
   addWater(val);
 }
+
 function deleteLog(index) {
   const entry = state.log[index];
   state.consumed = Math.max(0, state.consumed - entry.ml);
   state.log.splice(index, 1);
-  saveState(); updateUI(); renderLog();
+  saveState();
+  updateUI();
+  renderLog();
 }
 
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    UI UPDATE
-═══════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 function updateUI() {
   const pct       = Math.min(100, Math.round((state.consumed / state.goal) * 100));
   const remaining = Math.max(0, state.goal - state.consumed);
-  document.getElementById('pct-display').textContent       = pct;
-  document.getElementById('consumed-display').textContent  = state.consumed;
+
+  document.getElementById('pct-display').textContent      = pct;
+  document.getElementById('consumed-display').textContent = state.consumed;
   document.getElementById('goal-display-main').textContent = state.goal;
-  document.getElementById('stat-consumed').textContent     = state.consumed;
-  document.getElementById('stat-remaining').textContent    = remaining;
-  document.getElementById('stat-logs').textContent         = state.log.length;
-  const bottleH = 140;
-  const fillH   = Math.round((pct / 100) * bottleH);
-  const fillY   = 188 - fillH;
-  const waterEl = document.getElementById('water-fill');
+  document.getElementById('stat-consumed').textContent    = state.consumed;
+  document.getElementById('stat-remaining').textContent   = remaining;
+  document.getElementById('stat-logs').textContent        = state.log.length;
+
+  // Animate bottle fill
+  const bottleH  = 140; // usable fill height in SVG (from y=48 to y=188)
+  const fillH    = Math.round((pct / 100) * bottleH);
+  const fillY    = 188 - fillH;
+  const waterEl  = document.getElementById('water-fill');
   waterEl.setAttribute('height', fillH);
   waterEl.setAttribute('y', fillY);
+
+  // Wave on top of water
   if (fillH > 4) {
     const wy = fillY + 2;
     document.getElementById('wave-path').setAttribute('d',
-      `M0,${wy} Q27,${wy-6} 55,${wy} Q83,${wy+6} 110,${wy} L110,${fillY+fillH} L0,${fillY+fillH} Z`);
+      `M0,${wy} Q27,${wy-6} 55,${wy} Q83,${wy+6} 110,${wy} L110,${fillY+fillH} L0,${fillY+fillH} Z`
+    );
   }
+
   checkHeatBanner();
 }
 
@@ -1031,84 +1174,84 @@ function renderLog() {
       <span class="log-amount">💧 ${entry.ml} ml</span>
       <span class="log-time">${entry.time}</span>
       <button class="log-del" onclick="deleteLog(${i})" title="Delete">✕</button>
-    </div>`).join('');
+    </div>
+  `).join('');
 }
 
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    HEAT BANNER
-═══════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 function checkHeatBanner() {
   const banner = document.getElementById('heat-banner');
-  const temp = state.temperature;
-  const pct  = Math.round((state.consumed / state.goal) * 100);
+  const temp   = state.temperature;
+  const pct    = Math.round((state.consumed / state.goal) * 100);
   if (temp != null && temp > 30 && pct < 50 && state.setupDone) {
     banner.style.display = 'block';
     banner.textContent = `🔥 ${state.name || 'Hey you'}, it is ${temp}°C and you are barely halfway there. Do you want to be a human jerky? Drink water!`;
-  } else { banner.style.display = 'none'; }
+  } else {
+    banner.style.display = 'none';
+  }
 }
 
-/* ═══════════════════════════════════════════════
-   ✅ FIX 2: 50+ NOTIFICATION MESSAGES
-   Greatly expanded pool so AquaBully never
-   repeats itself. Index rotates through all 52.
-═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   NOTIFICATIONS
+═══════════════════════════════════════════════════════ */
 const funnyNotifs = [
-  (n) => `${n}, your kidneys just filed a formal complaint. Address it immediately. 💧`,
-  (n) => `Water break! Or don't. Your skin will age 10 years either way. ✨`,
-  (n) => `${n}! Even CACTI drink water. You have NO excuse right now. 🌵`,
-  (n) => `Your blood is starting to resemble cold brew coffee. Please hydrate. ☕`,
-  (n) => `Fun fact: you are 60% water. Currently more like 40%. Fix that. 🌊`,
-  (n) => `${n}, dehydration causes headaches. Is that what's happening right now? Drink up! 🤕`,
-  (n) => `Your cells are sending an SOS. They cannot Morse code in blood syrup. 🆘`,
-  (n) => `A goldfish drinks more water than you today. A GOLDFISH, ${n}. 🐟`,
-  (n) => `The Sahara called. It says you two have a lot in common. 🏜️`,
-  (n) => `Your body: "water please." You: *opens phone*. Your body: "...I hate you." 😭`,
-  (n) => `${n}, plants get watered daily. You are technically a plant person. Drink! 🌱`,
-  (n) => `NASA tracks drier things than you and they are concerned. 🚀`,
-  (n) => `${n}, your urine color right now is a crime against humanity. Drink. 🚨`,
-  (n) => `Doctors say you need 8 glasses a day. You've had what, one? Maybe? ${n}? 😤`,
-  (n) => `You are powered by water. You are currently running on fumes. Bad fumes. 💨`,
-  (n) => `${n}, sponges hold more water than you right now. SPONGES. 🧽`,
-  (n) => `We checked your hydration level. It is: Dried Apricot. Drink something. 🍑`,
-  (n) => `Your skin called. It is literally trying to crawl off your body in protest. 🫠`,
-  (n) => `${n}! The Mojave Desert filed a TRO. Says you're infringing on its vibe. 🏜️`,
-  (n) => `Imagine being a camel. You are not a camel. Drink water, ${n}. 🐪`,
-  (n) => `Your joints are dry-clicking like a 1998 keyboard. WATER. NOW. ⌨️`,
-  (n) => `${n}, even your shadow looks thirsty. Hydrate. 😰`,
-  (n) => `We ran a quick test. Result: you are 94% spite, 6% water. Fix the ratio. ⚗️`,
-  (n) => `Historians will note: ${n} chose scrolling over hydration. Don't be a cautionary tale. 📜`,
-  (n) => `Your future self just called. They said: "DRINK THE WATER." Time travel is real and you need to listen. 📞`,
-  (n) => `Crying is literally more hydration than you've given yourself today. Don't make us cry. 😢`,
-  (n) => `${n}, even rocks absorb water. You are somehow doing worse than rocks. 🪨`,
-  (n) => `Your kidneys are two peas in a pod right now — dried peas. In a dry pod. Drink. 🫘`,
-  (n) => `Alert: dehydration degrades brain function. This explains… a lot actually. 🧠`,
-  (n) => `${n}, water is free. Your headache later will not be. Choose wisely. 💸`,
-  (n) => `The ocean just texted. It says "share some, bro." Even the ocean is judging you. 🌊`,
-  (n) => `You haven't had water in a while. Your mouth is probably a retirement home for bacteria right now. 🦠`,
-  (n) => `${n}, every time you don't drink water, a plant somewhere over-compensates. Think of the plants. 🌿`,
-  (n) => `Medical community update: the recommended intake is MORE than zero. Incredible. Drink up. 🏥`,
-  (n) => `Your ancestors crossed deserts for water. You are sitting next to a tap. No excuses, ${n}. 🏃`,
-  (n) => `Thermodynamics says: your body is basically a slow fire. Water puts fires out. Science. 🔥`,
-  (n) => `${n}, your reaction time just dropped 10%. Have a sip. Get those 10% back. You need them. ⚡`,
-  (n) => `Water is the original energy drink. It predates Red Bull by 4 billion years. Show some respect. 🥤`,
-  (n) => `You look great. You'd look 15% greater with a glass of water. Just saying, ${n}. ✨`,
-  (n) => `Fun water fact: your brain is 75% water. Yours is currently 60% and running slow. 🐌`,
-  (n) => `${n}, a houseplant would shame you right now. It already drank today. You haven't. 🪴`,
-  (n) => `Imagine telling someone "I forgot to breathe today." That's you and water. DRINK. 😤`,
-  (n) => `Your cartilage needs water to not grind. You like walking, right ${n}? Drink. 🦴`,
-  (n) => `This is a wellness intervention. Staged by your cells. They are at their limit. 💊`,
-  (n) => `${n}, water flushes toxins. You are currently running full of them. That explains the vibes. 🧪`,
-  (n) => `You have approximately 37 trillion cells right now screaming for water. Do you hear them, ${n}? 📢`,
-  (n) => `Productivity experts say proper hydration boosts output by 14%. You're leaving 14% on the table. 📈`,
-  (n) => `${n}, your metabolism slows without water. So does your charm. Go drink something. 💀`,
-  (n) => `No one who ever drank water has regretted it. Zero. In all of history. Be like history. 📚`,
-  (n) => `Your blood is like 90% water. Do the math, ${n}. Then drink water. Then do more math. 🩸`,
-  (n) => `AquaBully legal notice: failure to hydrate voids your warranty. Terms apply. 💧`,
-  (n) => `We timed it. 5 seconds to take a sip. 5 seconds, ${n}. You've spent longer reading this. DRINK. ⏱️`,
+  (n,t) => `${n}, your kidneys just filed a formal complaint. Address it immediately. 💧`,
+  (n,t) => `Water break! Or don't. Your skin will age 10 years either way. ✨`,
+  (n,t) => `${n}! Even CACTI drink water. You have NO excuse right now. 🌵`,
+  (n,t) => `Your blood is starting to resemble cold brew coffee. Please hydrate. ☕`,
+  (n,t) => `Fun fact: you are 60% water. Currently more like 40%. Fix that. 🌊`,
+  (n,t) => `${n}, dehydration causes headaches. Is that what's happening right now? Drink up! 🤕`,
+  (n,t) => `Your cells are sending an SOS. They cannot Morse code in blood syrup. 🆘`,
+  (n,t) => `A goldfish drinks more water than you today. A GOLDFISH, ${n}. 🐟`,
+  (n,t) => `The Sahara called. It says you two have a lot in common. 🏜️`,
+  (n,t) => `Your body: "water please." You: *opens phone*. Your body: "...I hate you." 😭`,
+  (n,t) => `${n}, plants get watered daily. You are technically a plant person. Drink! 🌱`,
+  (n,t) => `NASA tracks drier things than you and they are concerned. 🚀`,
+  (n,t) => `${n}, this is your liver speaking. We need backup. Send water. 🫘`,
+  (n,t) => `Raisins were once grapes. Don't become a raisin, ${n}. 🍇`,
+  (n,t) => `Your hydration levels are giving "abandoned houseplant." Water yourself. 🪴`,
+  (n,t) => `${n}, camels store water for DAYS. You can't even do it for one hour. 🐪`,
+  (n,t) => `Breaking news: local human forgets basic biological need. More at 11. 📺`,
+  (n,t) => `${n}, your brain runs on water, not vibes. Refuel it. 🧠`,
+  (n,t) => `Somewhere, a hydrologist is crying because of you specifically. 😢`,
+  (n,t) => `${n}, you've been staring at this notification instead of drinking. Iconic. 🙃`,
+  (n,t) => `Reminder: thirst is just your body's way of yelling at you politely. 📢`,
+  (n,t) => `${n}, even your houseplants are side-eyeing your hydration habits. 👀`,
+  (n,t) => `Water you waiting for? (Sorry. Not sorry.) Drink up, ${n}. 😏`,
+  (n,t) => `${n}, the ocean called. It wants to know why you're so dry on land. 🌊`,
+  (n,t) => `Your future self is begging you to drink water right now. Listen to them. ⏳`,
+  (n,t) => `${n}, dehydrated humans are basically beef jerky with opinions. Don't. 🥩`,
+  (n,t) => `Quick math: 0 sips so far this hour = unacceptable. Fix the equation, ${n}. ➕`,
+  (n,t) => `${n}, your skin is begging for moisture like a desert begging for rain. 🏜️`,
+  (n,t) => `This is not a drill. Repeat: THIS IS NOT A DRILL. Drink water. 🚨`,
+  (n,t) => `${n}, fish never skip hydration. Be more like fish. 🐠`,
+  (n,t) => `Your hydration app has feelings too, ${n}. And right now they're hurt. 💔`,
+  (n,t) => `${n}, water is free and you're still out here choosing dehydration. Bold. 🎲`,
+  (n,t) => `A wise man once said "drink water." That man was right. Listen to him, ${n}. 🧙`,
+  (n,t) => `${n}, your organs are unionizing. The demand: water. Now. 🪧`,
+  (n,t) => `Somewhere a sommelier is sad you'd rather sip nothing than water. 🍷`,
+  (n,t) => `${n}, you're basically a houseplant with anxiety. Water yourself. 🌿`,
+  (n,t) => `Hydration check! Spoiler: you probably failed. Fix it, ${n}. ✅`,
+  (n,t) => `${n}, your kidneys deserve a vacation, not a drought. Send water. 🏖️`,
+  (n,t) => `Legend says hydrated people have more energy. Wild concept, right ${n}? ⚡`,
+  (n,t) => `${n}, water doesn't judge. Unlike this app. Drink it anyway. 😤`,
+  (n,t) => `Your cells called a meeting about you. Agenda item #1: water. ${n}, attend it. 📋`,
+  (n,t) => `${n}, you're drier than a math lecture right now. Hydrate immediately. 📐`,
+  (n,t) => `A single drop of water just texted you "u up?" Respond by drinking it. 💦`,
+  (n,t) => `${n}, scientists agree water is good for you. Shocking research, we know. 🔬`,
+  (n,t) => `Your hydration meter is lower than your phone battery at 2%. Charge up, ${n}. 🔋`,
 ];
 
-const heatNotif = (n, t) =>
-  `🔥 ${n}, it is ${t}°C and you are barely halfway to your goal. Do you want to become human jerky? Drink water NOW!`;
+const HEAT_NOTIFS = [
+  (n,t) => `🔥 ${n}, it is ${t}°C and you are barely halfway there. Do you want to be a human jerky? Drink water!`,
+  (n,t) => `🔥 ${n}, ${t}°C outside and your hydration looks worse than your phone in direct sunlight. Drink up!`,
+  (n,t) => `🔥 It's ${t}°C, ${n}. The sun is basically trying to turn you into a raisin. Fight back with water.`,
+  (n,t) => `🔥 ${n}, at ${t}°C you sweat faster than you drink. Catch up before you become a cautionary tale.`,
+  (n,t) => `🔥 ${t}°C and rising, ${n}. Your body is basically a sauna right now. Hydrate or evaporate.`,
+];
+const heatNotif = (n, t) => HEAT_NOTIFS[Math.floor(Math.random() * HEAT_NOTIFS.length)](n, t);
 
 function getDrinkReaction(ml) {
   if (ml <= 150) return `${ml}ml? That's… a sip. A tiny, shameful sip. Keep going.`;
@@ -1131,91 +1274,168 @@ function checkHeatNotif() {
 function checkGoalReached() {
   const pct = Math.round((state.consumed / state.goal) * 100);
   if (pct >= 100 && !state.goalReachedToday) {
-    state.goalReachedToday = true; saveState();
+    state.goalReachedToday = true;
+    saveState();
     const msg = `🎉 ${state.name}! You hit your goal! We're genuinely shocked and proud!`;
     showToast(msg);
     pushNotify('🎉 GOAL REACHED!', msg);
-    launchConfetti(); renderStreak();
+    launchConfetti();
+    renderStreak();
   }
   checkBadges();
 }
 
-/* ═══════════════════════════════════════════════
-   ✅ FIX 3: NOTIFICATIONS — reliable delivery
-   - notifIndex rotates through all 52 messages
-     so no random repeats
-   - pushNotify() now uses direct Notification API
-     first (works in foreground), falls back to SW
-   - scheduleNotifications() uses Date.now() for
-     elapsed check — no more drift or race conditions
-   - Notification fires immediately on init if
-     permission is already granted (confirms it works)
-═══════════════════════════════════════════════ */
-let notifIndex = 0;
+/* ═══════════════════════════════════════════════════════
+   WEB PUSH NOTIFICATIONS
+   - requestPushPermission() asks the browser for permission
+   - pushNotify(title, body, isHeat) fires a real OS notification
+   - scheduleNotifications() drives the 30-min interval loop
+   - In-app toast fires always; OS push fires when permitted
+═══════════════════════════════════════════════════════ */
 
+// Register a minimal inline Service Worker (required for Notification API
+// to work reliably across browsers, especially mobile Chrome).
+// We encode the SW as a Blob URL so the whole app stays one file.
 let swReg = null;
-let waitingSW = null;
-let deferredInstallPrompt = null;
 
+/* ═══════════════════════════════════════════════════════
+   MANIFEST (Blob URL — keeps everything in one file)
+═══════════════════════════════════════════════════════ */
 function injectManifest() {
+  // manifest.json is now a real file — just set the href
   document.getElementById('manifest-link').setAttribute('href', 'manifest.json');
 }
+
+/* ═══════════════════════════════════════════════════════
+   SERVICE WORKER (Blob URL — one file, full PWA)
+   Handles: install prompt, offline cache, notifications
+═══════════════════════════════════════════════════════ */
+let deferredInstallPrompt = null; // captured beforeinstallprompt event
+
+let waitingSW = null; // holds the new SW waiting to activate
 
 async function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
   try {
     swReg = await navigator.serviceWorker.register('sw.js', { scope: '/' });
     console.log('[AquaBully] SW registered ✅');
+
+    // If a new SW is already waiting on load (user returned to tab)
     if (swReg.waiting) showUpdateBanner(swReg.waiting);
+
+    // A new SW was found and starts installing
     swReg.addEventListener('updatefound', () => {
       const newSW = swReg.installing;
       newSW.addEventListener('statechange', () => {
-        if (newSW.state === 'installed' && navigator.serviceWorker.controller) showUpdateBanner(newSW);
+        if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+          showUpdateBanner(newSW);
+        }
       });
     });
-    navigator.serviceWorker.addEventListener('controllerchange', () => window.location.reload());
-  } catch(e) { console.warn('[AquaBully] SW failed (normal on file://):', e.message); }
+
+    // When the new SW activates (after we told it to skip waiting), reload
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      window.location.reload();
+    });
+
+    // Listen for the SW_ACTIVATED message (after first-ever install)
+    navigator.serviceWorker.addEventListener('message', e => {
+      if (e.data && e.data.type === 'SW_ACTIVATED') {
+        console.log('[AquaBully] SW activated, cache is fresh.');
+      }
+    });
+
+  } catch(e) {
+    console.warn('[AquaBully] SW failed (normal on file://):', e.message);
+  }
 }
 
-function showUpdateBanner(sw) { waitingSW = sw; document.getElementById('update-banner').classList.add('show'); }
-function applyUpdate() { if (waitingSW) waitingSW.postMessage({ type: 'SKIP_WAITING' }); document.getElementById('update-banner').classList.remove('show'); }
+function showUpdateBanner(sw) {
+  waitingSW = sw;
+  document.getElementById('update-banner').classList.add('show');
+}
+
+function applyUpdate() {
+  if (waitingSW) {
+    waitingSW.postMessage({ type: 'SKIP_WAITING' });
+  }
+  document.getElementById('update-banner').classList.remove('show');
+}
+
 async function checkForUpdates() {
   if (!swReg) { showToast('😔 Service Worker not registered yet.'); return; }
   showToast('🔍 Checking for updates…');
-  try { await swReg.update(); if (!waitingSW) showToast('✅ You\'re already on the latest version!'); }
-  catch(e) { showToast('😅 Couldn\'t check for updates. Are you online?'); }
+  try {
+    await swReg.update();
+    if (!waitingSW) showToast('✅ You\'re already on the latest version!');
+  } catch(e) {
+    showToast('😅 Couldn\'t check for updates. Are you online?');
+  }
 }
 
+/* ── PWA Install Prompt ──────────────────────────────── */
 window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault(); deferredInstallPrompt = e;
+  e.preventDefault();                    // stop mini-infobar
+  deferredInstallPrompt = e;
+  // Show banner only after setup is done
   if (state.setupDone) showInstallBanner();
 });
+
 window.addEventListener('appinstalled', () => {
   hideInstallBanner();
   showToast('🎉 AquaBully installed! We live in your phone now. No escape. 💧');
   deferredInstallPrompt = null;
 });
 
-function showInstallBanner() { if (!deferredInstallPrompt) return; const b = document.getElementById('install-banner'); if (b) b.style.display = 'flex'; }
-function hideInstallBanner() { const b = document.getElementById('install-banner'); if (b) b.style.display = 'none'; }
+function showInstallBanner() {
+  if (!deferredInstallPrompt) return;
+  const b = document.getElementById('install-banner');
+  if (b) b.style.display = 'flex';
+}
+
+function hideInstallBanner() {
+  const b = document.getElementById('install-banner');
+  if (b) b.style.display = 'none';
+}
+
 async function installPWA() {
-  if (!deferredInstallPrompt) { showToast('😅 Install prompt not available. Try: browser menu → "Add to Home Screen".'); return; }
+  if (!deferredInstallPrompt) {
+    showToast('😅 Install prompt not available. Try: browser menu → "Add to Home Screen".');
+    return;
+  }
   deferredInstallPrompt.prompt();
   const { outcome } = await deferredInstallPrompt.userChoice;
-  showToast(outcome === 'accepted' ? 'Installing… your kidneys thank you. 💧' : 'Declined. Bold choice. We judge you. 😤');
+  if (outcome === 'accepted') {
+    showToast('Installing… your kidneys thank you. 💧');
+  } else {
+    showToast('Declined. Bold choice. We judge you. 😤');
+  }
   deferredInstallPrompt = null;
 }
 
 async function requestPushPermission() {
-  if (!('Notification' in window)) { showToast('😔 Your browser does not support notifications. Classic.'); return; }
-  if (Notification.permission === 'granted') { showToast('✅ Notifications already on! AquaBully is watching you. 👁️'); updateNotifBtn(); return; }
-  if (Notification.permission === 'denied') { showToast('🚫 Notifications blocked. Go to browser settings → Site Settings → allow Notifications for this page.'); return; }
+  if (!('Notification' in window)) {
+    showToast('😔 Your browser does not support notifications. Classic.');
+    return;
+  }
+  if (Notification.permission === 'granted') {
+    showToast('✅ Notifications already on! AquaBully is watching you. 👁️');
+    updateNotifBtn();
+    return;
+  }
+  if (Notification.permission === 'denied') {
+    showToast('🚫 Notifications blocked. Go to browser settings and unblock us. We miss you.');
+    return;
+  }
   const perm = await Notification.requestPermission();
   if (perm === 'granted') {
     updateNotifBtn();
-    // Welcome notification fires immediately to prove it works
-    pushNotify('AquaBully is ACTIVATED 💧', `Welcome, ${state.name || 'friend'}. We will be watching your water intake. Very closely.`, false);
-    showToast('✅ Notifications enabled! AquaBully will now harass you properly. 💧');
+    // Fire a welcome push to confirm it works
+    pushNotify(
+      'AquaBully is ACTIVATED 💧',
+      `Welcome, ${state.name || 'friend'}. We will be watching your water intake. Very closely.`,
+      false
+    );
   } else {
     showToast('🙄 Fine. Stay dry. See if we care. (We care. Drink water.)');
   }
@@ -1228,21 +1448,18 @@ function updateNotifBtn() {
   if (Notification.permission === 'granted') {
     if (txt) txt.textContent = 'Alerts On';
     btn.style.background = 'rgba(255,255,255,0.35)';
-    const nsb = document.getElementById('notif-settings-btn');
-    if (nsb) { nsb.textContent = 'Active ✅'; nsb.style.cursor = 'default'; }
+    btn.style.cursor = 'default';
+    btn.onclick = () => showToast('✅ Push notifications are active. No escape.');
   } else if (Notification.permission === 'denied') {
     if (txt) txt.textContent = 'Blocked';
     btn.style.opacity = '0.6';
-    const nsb = document.getElementById('notif-settings-btn');
-    if (nsb) nsb.textContent = 'Blocked 🚫';
   }
 }
 
-/* ✅ pushNotify: try direct Notification first (works in foreground),
-   fall back to SW (works in background when installed as PWA).
-   This fixes the silent-failure when SW isn't fully active. */
+// Fire an OS-level notification (works when tab is in background too)
 function pushNotify(title, body, isHeat = false) {
   if (Notification.permission !== 'granted') return;
+
   const options = {
     body,
     icon: 'https://fav.farm/💧',
@@ -1250,168 +1467,236 @@ function pushNotify(title, body, isHeat = false) {
     tag: 'aquabully-nudge',
     renotify: true,
     silent: false,
+    data: { isHeat },
   };
-  // Direct Notification API — always works when page is visible
-  try {
+
+  // Prefer Service Worker notification (works in background, mobile)
+  if (swReg && swReg.showNotification) {
+    swReg.showNotification(title, options);
+  } else {
+    // Direct Notification API fallback
     const n = new Notification(title, options);
     n.onclick = () => { window.focus(); n.close(); };
-    return;
-  } catch(e) { /* falls through to SW path */ }
-  // SW path — works in background (PWA)
-  if (swReg) {
-    swReg.showNotification(title, options).catch(() => {});
   }
 }
 
-/* ✅ scheduleNotifications: fixed timing logic.
-   Uses a stable timestamp comparison so notifications
-   fire reliably at the chosen interval even after tab
-   switching or device sleep wake-up. */
-function scheduleNotifications() {
-  // Stamp "now" as the starting point if not set
-  if (!state.lastNotif) { state.lastNotif = Date.now(); saveState(); }
+let lastNotifMsgIdx = -1;
 
-  const CHECK_MS = 15 * 1000; // poll every 15s for responsiveness
-
-  setInterval(() => {
-    if (!state.setupDone) return;
-
-    // ── Midnight reset check ──
-    checkMidnightReset();
-
-    // ── Don't nag if goal met ──
-    const pct = Math.round((state.consumed / state.goal) * 100);
-    if (pct >= 100) return;
-
-    const INTERVAL_MS = (state.reminderInterval || 30) * 60 * 1000;
-    const elapsed = Date.now() - state.lastNotif;
-    if (elapsed < INTERVAL_MS) return;
-
-    // ── Pick next message from the pool (cycles through all 52) ──
-    const isHeat = state.temperature != null && state.temperature > 30 && pct < 50;
-    let msg;
-    if (isHeat) {
-      msg = heatNotif(state.name, state.temperature);
-    } else {
-      msg = funnyNotifs[notifIndex % funnyNotifs.length](state.name);
-      notifIndex++;
-    }
-
-    showToast(msg, isHeat);
-    pushNotify(
-      isHeat ? '🔥 Heat Alert from AquaBully!' : '💧 AquaBully Reminder',
-      msg, isHeat
-    );
-
-    state.lastNotif = Date.now();
-    saveState();
-  }, CHECK_MS);
+function pickFunnyNotif() {
+  let idx = Math.floor(Math.random() * funnyNotifs.length);
+  // avoid repeating the exact same line twice in a row
+  if (funnyNotifs.length > 1) {
+    while (idx === lastNotifMsgIdx) idx = Math.floor(Math.random() * funnyNotifs.length);
+  }
+  lastNotifMsgIdx = idx;
+  return funnyNotifs[idx];
 }
 
-/* ═══════════════════════════════════════════════
+function runNotificationCheck() {
+  if (!state.setupDone) return;
+
+  // ── Midnight reset check ──
+  checkMidnightReset();
+
+  const now  = Date.now();
+  const pct  = Math.round((state.consumed / state.goal) * 100);
+  if (pct >= 100) return;
+
+  const INTERVAL_MS = (state.reminderInterval || 30) * 60 * 1000;
+  const elapsed = now - state.lastNotif;
+  if (elapsed < INTERVAL_MS) return;
+
+  const isHeat = state.temperature != null && state.temperature > 30 && pct < 50;
+  const msg    = isHeat
+    ? heatNotif(state.name, state.temperature)
+    : pickFunnyNotif()(state.name, state.temperature);
+
+  showToast(msg, isHeat);
+  pushNotify(
+    isHeat ? '🔥 Heat Alert from AquaBully!' : '💧 AquaBully Reminder',
+    msg,
+    isHeat
+  );
+
+  state.lastNotif = now;
+  saveState();
+}
+
+function scheduleNotifications() {
+  if (!state.lastNotif) {
+    state.lastNotif = Date.now();
+    saveState();
+  }
+
+  const CHECK_MS = 30 * 1000; // poll every 30s while tab is open
+
+  // Main loop — works reliably while the tab is open and active
+  setInterval(runNotificationCheck, CHECK_MS);
+
+  // ── Catch-up checks ──────────────────────────────────
+  // Mobile browsers (and backgrounded tabs) throttle or fully suspend
+  // setInterval, which is why reminders used to stop firing after the
+  // first one. These listeners re-check immediately whenever the user
+  // comes back to the app, so an overdue reminder fires right away
+  // instead of never firing again.
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') runNotificationCheck();
+  });
+  window.addEventListener('focus', runNotificationCheck);
+  window.addEventListener('pageshow', runNotificationCheck);
+}
+
+/* ═══════════════════════════════════════════════════════
    TOAST
-═══════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 let toastTimer = null;
 function showToast(msg, isHeat = false) {
   const t = document.getElementById('toast');
   t.textContent = msg;
-  t.className = 'show' + (isHeat ? ' heat' : '');
+  t.className   = 'show' + (isHeat ? ' heat' : '');
   if (toastTimer) clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { t.classList.remove('show', 'heat'); }, 4500);
+  toastTimer = setTimeout(() => { t.classList.remove('show','heat'); }, 4500);
 }
 
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    CONFETTI
-═══════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 function launchConfetti() {
   const colors = ['#5bbfff','#ff6b8a','#ffcc44','#4ecdc4','#a8e6ff'];
   for (let i = 0; i < 30; i++) {
     const dot = document.createElement('div');
     dot.className = 'confetti-dot';
-    dot.style.cssText = `position:fixed;width:10px;height:10px;border-radius:50%;pointer-events:none;z-index:999;animation:confettiFly 1.2s ease forwards;`;
-    const angle = Math.random() * 360;
-    const dist  = 80 + Math.random() * 120;
-    dot.style.left = `calc(50% + ${Math.cos(angle)*8}px)`;
-    dot.style.top  = '60%';
-    dot.style.background = colors[Math.floor(Math.random() * colors.length)];
-    dot.style.setProperty('--dx', `${Math.cos(angle * Math.PI/180) * dist}px`);
-    dot.style.setProperty('--dy', `${Math.sin(angle * Math.PI/180) * dist - 80}px`);
-    dot.style.animationDelay = `${Math.random() * 0.3}s`;
+    const angle  = Math.random() * 360;
+    const dist   = 80 + Math.random() * 120;
+    dot.style.cssText = `
+      left: calc(50% + ${Math.cos(angle)*8}px);
+      top: 60%;
+      background: ${colors[Math.floor(Math.random()*colors.length)]};
+      --dx: ${Math.cos(angle*Math.PI/180)*dist}px;
+      --dy: ${Math.sin(angle*Math.PI/180)*dist - 80}px;
+      animation-delay: ${Math.random()*0.3}s;
+    `;
     document.body.appendChild(dot);
     setTimeout(() => dot.remove(), 1600);
   }
 }
 
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    RESET
-═══════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 function resetApp() {
   if (!confirm('Reset everything? Your progress, name, weight — all gone. Are you sure?')) return;
-  localStorage.removeItem('aquabully_state'); location.reload();
+  localStorage.removeItem('aquabully_state');
+  location.reload();
 }
 
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
+   DATE HELPER
+═══════════════════════════════════════════════════════ */
+function todayStr() {
+  return new Date().toISOString().slice(0, 10); // 'YYYY-MM-DD'
+}
+
+/* ═══════════════════════════════════════════════════════
    AUTO MIDNIGHT RESET
-═══════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 function checkMidnightReset() {
   const today = todayStr();
-  if (!state.lastDate) { state.lastDate = today; saveState(); return; }
-  if (state.lastDate === today) return;
+  if (!state.lastDate) {
+    state.lastDate = today;
+    saveState();
+    return;
+  }
+  if (state.lastDate === today) return; // same day, nothing to do
 
-  const yesterday = { date: state.lastDate, consumed: state.consumed, goal: state.goal };
+  // It's a new day! Archive yesterday and reset
+  const yesterday = {
+    date:     state.lastDate,
+    consumed: state.consumed,
+    goal:     state.goal,
+  };
   state.weekHistory.push(yesterday);
-  if (state.weekHistory.length > 7) state.weekHistory.shift();
+  if (state.weekHistory.length > 7) state.weekHistory.shift(); // keep 7 days
 
-  state.streak = state.goalReachedToday ? state.streak + 1 : 0;
-  checkBadges();
+  // Update streak
+  if (state.goalReachedToday) {
+    state.streak++;
+  } else {
+    state.streak = 0;
+  }
 
-  state.consumed = 0; state.log = []; state.lastNotif = 0;
-  state.goalReachedToday = false; state.lastDate = today;
+  checkBadges(); // check streak badges before resetting
+
+  state.consumed        = 0;
+  state.log             = [];
+  state.lastNotif       = 0;
+  state.goalReachedToday = false;
+  state.lastDate        = today;
   saveState();
 
-  updateUI(); renderLog(); renderStreak(); renderWeekChart();
+  updateUI();
+  renderLog();
+  renderStreak();
+  renderWeekChart();
+
   showToast(`🌅 New day! Yesterday you drank ${yesterday.consumed}ml. Today's goal: ${state.goal}ml. Let's go!`);
 }
 
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    STREAK
-═══════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 function renderStreak() {
   const el  = document.getElementById('streak-count');
   const msg = document.getElementById('streak-msg');
   if (!el) return;
   el.textContent = state.streak;
-  if (state.streak === 0) msg.textContent = state.goalReachedToday ? '🎉 Goal hit today! Come back tomorrow!' : 'Hit your goal today to start a streak!';
-  else if (state.streak < 3) msg.textContent = `${state.streak} day${state.streak > 1 ? 's' : ''} in a row! Keep it up!`;
-  else if (state.streak < 7) msg.textContent = `${state.streak} days! You're on fire! 🔥`;
-  else msg.textContent = `${state.streak} DAYS! You're a hydration legend! 💧`;
+  if (state.streak === 0) {
+    msg.textContent = state.goalReachedToday
+      ? '🎉 Goal hit today! Come back tomorrow!'
+      : 'Hit your goal today to start a streak!';
+  } else if (state.streak < 3) {
+    msg.textContent = `${state.streak} day${state.streak > 1 ? 's' : ''} in a row! Keep it up!`;
+  } else if (state.streak < 7) {
+    msg.textContent = `${state.streak} days! You're on fire! 🔥`;
+  } else {
+    msg.textContent = `${state.streak} DAYS! You're a hydration legend! 💧`;
+  }
 }
 
-/* ═══════════════════════════════════════════════
-   ✅ FIX 4: WEEKLY CHART — parse history dates
-   using local noon to avoid UTC rollover shifting
-   the day label by one day
-═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   WEEKLY CHART
+═══════════════════════════════════════════════════════ */
 function renderWeekChart() {
   const wrap = document.getElementById('week-chart');
   if (!wrap) return;
+
+  // Build 7-slot array: past 6 days from history + today
   const days = [];
   const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  // Past days from history (up to 6)
   const hist = state.weekHistory.slice(-6);
   hist.forEach(h => {
-    // ✅ Parse as LOCAL noon to prevent UTC day-offset bug
-    const parts = h.date.split('-');
-    const d = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]), 12, 0, 0);
+    const d = new Date(h.date + 'T12:00:00');
     days.push({ label: dayNames[d.getDay()], consumed: h.consumed, goal: h.goal, isToday: false });
   });
+
+  // Today
+  const td = new Date();
   days.push({ label: 'Today', consumed: state.consumed, goal: state.goal, isToday: true });
+
+  // Pad to 7 slots if needed
   while (days.length < 7) days.unshift({ label: '—', consumed: 0, goal: state.goal, isToday: false, empty: true });
+
+  const maxConsumed = Math.max(...days.map(d => d.consumed), state.goal);
 
   wrap.innerHTML = days.map(d => {
     const pct    = d.empty ? 0 : Math.min(100, Math.round((d.consumed / d.goal) * 100));
-    const h      = Math.round((pct / 100) * 88);
+    const h      = Math.round((pct / 100) * 88); // max bar height 88px
     const cls    = d.isToday ? 'today' : pct >= 100 ? 'goal-hit' : 'goal-miss';
-    const mlText = d.empty ? '' : d.consumed >= 1000 ? (d.consumed/1000).toFixed(1)+'L' : d.consumed+'';
+    const mlText = d.empty ? '' : d.consumed >= 1000
+      ? (d.consumed / 1000).toFixed(1) + 'L'
+      : d.consumed + '';
     return `
       <div class="chart-day">
         <div class="chart-bar-wrap">
@@ -1423,41 +1708,49 @@ function renderWeekChart() {
   }).join('');
 }
 
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    BADGES
-═══════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 const BADGE_CATALOG = [
-  { id: 'first_sip',   icon: '💧', name: 'First Sip',    desc: 'Log your first water entry' },
-  { id: 'first_goal',  icon: '🎯', name: 'Goal Getter',  desc: 'Hit your daily goal for the first time' },
-  { id: 'streak_3',    icon: '🔥', name: '3-Day Streak', desc: '3 days in a row' },
-  { id: 'streak_7',    icon: '⚡', name: 'Week Warrior', desc: '7 days in a row' },
-  { id: 'volume_1L',   icon: '🌊', name: '1 Litre',      desc: 'Log 1000ml in one day' },
-  { id: 'volume_2L',   icon: '🌊', name: '2 Litres',     desc: 'Log 2000ml in one day' },
-  { id: 'early_bird',  icon: '🐦', name: 'Early Bird',   desc: 'Log water before 8am' },
-  { id: 'night_owl',   icon: '🦉', name: 'Night Owl',    desc: 'Log water after 10pm' },
+  { id: 'first_sip',   icon: '💧', name: 'First Sip',     desc: 'Log your first water entry' },
+  { id: 'first_goal',  icon: '🎯', name: 'Goal Getter',   desc: 'Hit your daily goal for the first time' },
+  { id: 'streak_3',    icon: '🔥', name: '3-Day Streak',  desc: '3 days in a row' },
+  { id: 'streak_7',    icon: '⚡', name: 'Week Warrior',  desc: '7 days in a row' },
+  { id: 'volume_1L',   icon: '🌊', name: '1 Litre',       desc: 'Log 1000ml in one day' },
+  { id: 'volume_2L',   icon: '🌊', name: '2 Litres',      desc: 'Log 2000ml in one day' },
+  { id: 'early_bird',  icon: '🐦', name: 'Early Bird',    desc: 'Log water before 8am' },
+  { id: 'night_owl',   icon: '🦉', name: 'Night Owl',     desc: 'Log water after 10pm' },
 ];
 
 function checkBadges() {
   const earned = new Set(state.badges);
   const prev   = earned.size;
-  if (state.log.length >= 1)    earned.add('first_sip');
-  if (state.goalReachedToday)   earned.add('first_goal');
-  if (state.streak >= 3)        earned.add('streak_3');
-  if (state.streak >= 7)        earned.add('streak_7');
-  if (state.consumed >= 1000)   earned.add('volume_1L');
-  if (state.consumed >= 2000)   earned.add('volume_2L');
+
+  if (state.log.length >= 1)       earned.add('first_sip');
+  if (state.goalReachedToday)      earned.add('first_goal');
+  if (state.streak >= 3)           earned.add('streak_3');
+  if (state.streak >= 7)           earned.add('streak_7');
+  if (state.consumed >= 1000)      earned.add('volume_1L');
+  if (state.consumed >= 2000)      earned.add('volume_2L');
+
+  // Time-based
   const h = new Date().getHours();
   if (state.log.length >= 1) {
     if (h < 8)  earned.add('early_bird');
     if (h >= 22) earned.add('night_owl');
   }
-  const newlyEarned = [...earned].filter(id => !state.badges.includes(id));
+
   state.badges = [...earned];
-  if (newlyEarned.length > 0) {
-    const badge = BADGE_CATALOG.find(b => newlyEarned.includes(b.id));
+
+  // Toast for newly earned badges
+  if (earned.size > prev) {
+    const newOnes = [...earned].filter(id => !state.badges.slice(0, prev).includes(id));
+    const badge = BADGE_CATALOG.find(b => newOnes.includes(b.id));
     if (badge) showToast(`🏆 Badge unlocked: ${badge.icon} ${badge.name}!`);
   }
-  saveState(); renderBadges();
+
+  saveState();
+  renderBadges();
 }
 
 function renderBadges() {
@@ -1468,27 +1761,61 @@ function renderBadges() {
     <div class="badge-item ${earned.has(b.id) ? 'earned' : 'locked'}" title="${b.desc}">
       <div class="badge-icon">${b.icon}</div>
       <div class="badge-name">${b.name}</div>
-    </div>`).join('');
+    </div>
+  `).join('');
 }
 
-/* ═══════════════════════════════════════════════
-   SETTINGS
-═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   REMINDER INTERVAL
+═══════════════════════════════════════════════════════ */
 function setReminderInterval(mins) {
-  state.reminderInterval = mins; state.lastNotif = Date.now();
-  saveState(); renderIntervalBtns();
+  state.reminderInterval = mins;
+  state.lastNotif = Date.now(); // reset the clock
+  saveState();
+  renderIntervalBtns();
   showToast(`⏱️ Reminder interval set to ${mins === 60 ? '1 hour' : mins + ' minutes'}.`);
 }
+
+function applyCustomInterval() {
+  const input = document.getElementById('custom-interval-input');
+  const mins  = parseInt(input.value);
+  if (!mins || mins < 1 || mins > 1440) {
+    showToast('😑 Enter a number between 1 and 1440 minutes (24 hours).');
+    return;
+  }
+  setReminderInterval(mins);
+  input.value = '';
+}
+
 function renderIntervalBtns() {
   document.querySelectorAll('.interval-btn').forEach(btn => {
     btn.classList.toggle('active', parseInt(btn.dataset.mins) === state.reminderInterval);
   });
+  const customInput = document.getElementById('custom-interval-input');
+  if (customInput && ![15,30,45,60].includes(state.reminderInterval)) {
+    customInput.placeholder = state.reminderInterval + ' mins';
+  }
 }
 
-/* ═══════════════════════════════════════════════
+function sendTestNotification() {
+  if (Notification.permission !== 'granted') {
+    showToast('🔕 Notifications aren\'t enabled yet. Tap "Enable Alerts" first.');
+    return;
+  }
+  const msg = pickFunnyNotif()(state.name || 'friend', state.temperature);
+  showToast(msg);
+  pushNotify('💧 AquaBully Test', msg, false);
+}
+
+/* ═══════════════════════════════════════════════════════
    DARK MODE
-═══════════════════════════════════════════════ */
-function toggleDarkMode() { state.darkMode = !state.darkMode; applyDarkMode(); saveState(); }
+═══════════════════════════════════════════════════════ */
+function toggleDarkMode() {
+  state.darkMode = !state.darkMode;
+  applyDarkMode();
+  saveState();
+}
+
 function applyDarkMode() {
   document.documentElement.setAttribute('data-theme', state.darkMode ? 'dark' : '');
   const btn  = document.getElementById('dark-btn');
@@ -1497,9 +1824,9 @@ function applyDarkMode() {
   if (btn2) btn2.textContent = state.darkMode ? 'On' : 'Off';
 }
 
-/* ═══════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    INIT
-═══════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 function init() {
   loadState();
   injectManifest();
@@ -1508,29 +1835,28 @@ function init() {
   updateNotifBtn();
   applyDarkMode();
 
+  // Ensure lastDate is set
   if (!state.lastDate) { state.lastDate = todayStr(); saveState(); }
 
-  // Run midnight check on load (safe with fixed todayStr())
+  // Run midnight reset check immediately on load
   checkMidnightReset();
 
   if (state.setupDone) {
-    showTracker(); renderLog(); renderStreak();
-    renderWeekChart(); renderBadges(); renderIntervalBtns();
+    showTracker();
+    renderLog();
+    renderStreak();
+    renderWeekChart();
+    renderBadges();
+    renderIntervalBtns();
     document.getElementById('input-name').value   = state.name;
     document.getElementById('input-weight').value = state.weight;
     showInstallBanner();
-    updateNotifBtn();
+    // Update notif settings btn
+    const nsb = document.getElementById('notif-settings-btn');
+    if (nsb && Notification.permission === 'granted') { nsb.textContent = 'Active ✅'; nsb.style.cursor = 'default'; }
+    if (nsb && Notification.permission === 'denied')  { nsb.textContent = 'Blocked 🚫'; }
   }
 }
-
-// CSS for confetti (needs to be in <style> but we add it dynamically to keep the keyframe)
-const confettiStyle = document.createElement('style');
-confettiStyle.textContent = `
-  @keyframes confettiFly {
-    0%   { transform: translate(0,0) scale(1); opacity: 1; }
-    100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
-  }`;
-document.head.appendChild(confettiStyle);
 
 init();
 </script>
